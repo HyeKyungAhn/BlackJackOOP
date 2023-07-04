@@ -9,10 +9,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BlackJackRound implements Round {
-    List<Gambler> gamblers; //플레이어
-    Dealer dealer; //딜러
-    List<Playable> players; //플레이어 + 딜러
-    Deck deck;
+    List<Gambler> gamblers; //player (can bet)
+    Playable dealer; //dealer
+    List<Playable> players; //player + dealer
+    Deck deck; //추상화 필요
+
+    GamblerTurn bettingTurn;
+    TurnWithDeck dealingTurn;
+    TurnWithDeck playerTurn;
+    DealerTurn dealerTurn;
+    SettlingTurn lazySettlingTurn;
+    SettlingTurn earlySettlingTurn;
 
     NextTurnStatus nextTurn = NextTurnStatus.INITIAL;
     boolean isFinal = false;
@@ -20,6 +27,8 @@ public class BlackJackRound implements Round {
     BlackJackRound(){}
 
     BlackJackRound(List<Playable> players){
+        initTurns();
+
         this.players = players;
         this.gamblers = new ArrayList<>();
         this.deck = new Deck();
@@ -28,9 +37,18 @@ public class BlackJackRound implements Round {
             if(player instanceof Gambler) {
                 gamblers.add((Gambler) player);
             } else {
-                dealer = (Dealer) player;
+                dealer = player;
             }
         });
+    }
+
+    private void initTurns() {
+        bettingTurn = new BJBettingTurn();
+        dealingTurn = new BJDealingTurn();
+        playerTurn = new BJPlayerTurn();
+        dealerTurn = new BJDealerTurn();
+        lazySettlingTurn = new BJLazySettlingTurn();
+        earlySettlingTurn = new BJEarlySettlingTurn();
     }
 
     @Override
@@ -52,27 +70,27 @@ public class BlackJackRound implements Round {
             } break;
 
             case BETTING_TURN: {
-                nextTurn = BettingTurn.nextTurn(gamblers);
+                nextTurn = bettingTurn.nextTurn(gamblers);
             } break;
 
             case DEALING_TURN: {
-                nextTurn = DealingTurn.nextTurn(players, deck);
+                nextTurn = dealingTurn.nextTurn(players, deck);
             } break;
 
             case PLAYER_TURN: {
-                nextTurn = PlayerTurn.nextTurn(players, deck);
+                nextTurn = playerTurn.nextTurn(players, deck);
             } break;
 
             case DEALER_TURN: {
-                nextTurn = DealerTurn.nextTurn(dealer, deck);
+                nextTurn = dealerTurn.nextTurn(dealer, deck);
             } break;
 
             case EARLY_SETTLING_TURN: {
-                nextTurn = EarlySettlingTurn.nextTurn(players);
+                nextTurn = earlySettlingTurn.nextTurn(players);
             } break;
 
             case LAZY_SETTLING_TURN: {
-                nextTurn = LazySettlingTurn.nextTurn(players);
+                nextTurn = lazySettlingTurn.nextTurn(players);
             } break;
         }
 

@@ -1,21 +1,19 @@
 package blackjack;
 
-import blackjack.Dealer;
-import blackjack.NextTurnStatus;
-import blackjack.Player;
+import card.BJDealerHand;
 import card.Deck;
 import game.Playable;
 import game.Turn;
 
 import java.util.List;
 
-public interface PlayerTurn extends Turn {
-    static NextTurnStatus nextTurn(List<Playable> players, Deck deck) {
-        Player player;
-        Dealer dealer;
+public class BJPlayerTurn implements TurnWithDeck {
+    public NextTurnStatus nextTurn(List<Playable> players, Deck deck) {
+        Player player = null;
+        Dealer dealer = null;
 
         for(Playable playable : players){
-            if (playable instanceof blackjack.Dealer) {
+            if (playable instanceof Dealer) {
                 dealer = (Dealer) playable;
             } else {
                 player = (Player) playable;

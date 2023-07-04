@@ -27,7 +27,7 @@ public class Player implements Playable, Gambler {
                 continue;
             }
 
-            if(amount < BettingTurn.BET_MIN || BettingTurn.BET_MAX < amount){
+            if(amount < BJBettingTurn.BET_MIN || BJBettingTurn.BET_MAX < amount){
                 Viewer.printInfo(ViewerStatus.OUT_OF_BET_LIMIT);
                 continue;
             }
@@ -53,7 +53,7 @@ public class Player implements Playable, Gambler {
     }
 
     public boolean isBroke() {
-        return wallet.getBalance() <= BettingTurn.BET_MIN;
+        return wallet.getBalance() <= BJBettingTurn.BET_MIN;
     }
 
     public BJPlayerHand getHand() {

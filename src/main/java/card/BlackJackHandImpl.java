@@ -3,10 +3,14 @@ package card;
 import java.util.List;
 
 public class BlackJackHandImpl extends HandImpl implements BlackJackHand{
+    protected int count;
+
     @Override
-    public int count(List<Card> cards) {
+    public int count() {
         int count = 0;
         int aCount = 0;
+
+        List<Card> cards = super.cards;
 
         for(Card card : cards){
             char pipOrCourt = card.getPipOrCourt().charAt(0);
@@ -32,28 +36,27 @@ public class BlackJackHandImpl extends HandImpl implements BlackJackHand{
             }
         }
 
+        return this.count = count;
+    }
+
+    @Override
+    public int getCount() {
         return count;
     }
 
     @Override
-    public boolean isBlackJack(BlackJackHand hand) {
-        int count = hand.count(hand.getCards());
-        return isBlackJack(count);
+    public boolean countAndVerifyBJ() {
+        count = count();
+        return isBlackJack();
     }
 
     @Override
-    public boolean isBlackJack(int count) {
+    public boolean isBlackJack() {
         return count == 21;
     }
 
     @Override
-    public boolean isBusted(BlackJackHand hand) {
-        int count = hand.count(hand.getCards());
-        return isBusted(count);
-    }
-
-    @Override
-    public boolean isBusted(int count) {
-        return count > 21;
+    public boolean isBusted() {
+        return count() > 21;
     }
 }

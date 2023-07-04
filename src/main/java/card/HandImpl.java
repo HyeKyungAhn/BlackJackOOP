@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HandImpl implements Hand {
-    private List<Card> cards;
+    protected List<Card> cards;
 
     public HandImpl(){
         cards = new ArrayList<>();

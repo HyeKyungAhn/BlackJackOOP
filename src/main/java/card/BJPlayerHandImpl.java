@@ -1,56 +1,46 @@
 package card;
 
-import blackjack.Player;
-import blackjack.BettingTurn;
+import blackjack.BJBettingTurn;
+import blackjack.BJPlayer;
 
 public class BJPlayerHandImpl extends BlackJackHandImpl implements BJPlayerHand {
-    private int count;
-    private boolean insured = false;
-    private boolean evenMoney;
-    private boolean firstTurnBJ;
-    private boolean blackJack;
+    protected boolean insured = false;
+    protected boolean evenMoney;
+    protected boolean firstTurnBJ;
+    protected boolean blackJack;
 
-    public int getCount() {
-        return count;
-    }
-
-    public void setCount(int count) {
-        this.count = count;
-    }
-
+    @Override
     public boolean isInsured() {
         return insured;
     }
 
+    @Override
     public void setInsured(boolean insured) {
         this.insured = insured;
     }
 
+    @Override
     public boolean isEvenMoney() {
         return evenMoney;
     }
 
+    @Override
     public void setEvenMoney(boolean evenMoney) {
         this.evenMoney = evenMoney;
     }
 
+    @Override
     public boolean isFirstTurnBJ() {
         return firstTurnBJ;
     }
 
+    @Override
     public void setFirstTurnBJ(boolean firstTurnBJ) {
         this.firstTurnBJ = firstTurnBJ;
     }
 
-    public boolean isBlackJack() {
-        return blackJack;
-    }
-
-    public void setBlackJack(boolean blackJack) {
-        this.blackJack = blackJack;
-    }
-
-    public boolean canDoubleDown(Player player, BettingTurn bm){
+    @Override
+    public boolean canDoubleDown(BJPlayer player){
         long betMoney = player.getBettingAmount();
         long playerMoney = player.getWallet().getBalance();
         return playerMoney >= betMoney;

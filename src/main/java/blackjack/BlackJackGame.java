@@ -1,5 +1,7 @@
 package blackjack;
 
+import card.BJDealerHandImpl;
+import card.BJPlayerHandImpl;
 import game.*;
 import money.VirtualWallet;
 

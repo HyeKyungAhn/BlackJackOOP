@@ -53,6 +53,12 @@ public class BJPlayerImpl extends PlayableImpl implements BJPlayer, Gambler {
     }
 
     @Override
+    public void betEvenMoney() {
+        BJPlayerHand playerHand = ((BJPlayerHand)super.hand);
+        playerHand.setEvenMoney(true);
+    }
+
+    @Override
     public boolean doubleDown() {
         if(bet(bettingAmount)){
             bettingAmount *= 2;

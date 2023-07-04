@@ -1,6 +1,7 @@
 package blackjack;
 
 import game.*;
+import money.VirtualWallet;
 
 import java.util.Arrays;
 
@@ -8,8 +9,8 @@ public class BlackJackGame implements Game {
 
     @Override
     public void play() {
-        Player player = new Player();
-        Dealer dealer = new Dealer();
+        BJPlayer player = new BJPlayerImpl(new BJPlayerHandImpl(), new VirtualWallet(1000));
+        BJDealer dealer = new BJDealerImpl(new BJDealerHandImpl());
         BlackJackRound round = new BlackJackRound(Arrays.asList(player, dealer));
         boolean hasNext;
 

@@ -1,6 +1,7 @@
 package blackjack;
 
 import card.BJDealerHand;
+import card.BJPlayerHand;
 import card.Deck;
 import game.Playable;
 import game.Turn;
@@ -9,14 +10,14 @@ import java.util.List;
 
 public class BJPlayerTurn implements TurnWithDeck {
     public NextTurnStatus nextTurn(List<Playable> players, Deck deck) {
-        Player player = null;
-        Dealer dealer = null;
+        BJPlayer player = null;
+        BJDealer dealer = null;
 
         for(Playable playable : players){
-            if (playable instanceof Dealer) {
-                dealer = (Dealer) playable;
+            if (playable instanceof BJDealer) {
+                dealer = (BJDealer) playable;
             } else {
-                player = (Player) playable;
+                player = (BJPlayer) playable;
             }
         }
 

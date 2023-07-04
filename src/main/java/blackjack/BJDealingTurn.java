@@ -19,7 +19,7 @@ public class BJDealingTurn implements TurnWithDeck {
     }
 
     private void openCards(Playable playable) {
-        if(playable instanceof Dealer){
+        if(playable instanceof BJDealer){
             Viewer.printInfo(ViewerStatus.DEALER_HAND);
         } else {
             Viewer.printInfo(ViewerStatus.PLAYER_HAND);

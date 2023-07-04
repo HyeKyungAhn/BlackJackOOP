@@ -6,27 +6,34 @@ import java.util.Scanner;
 import java.util.regex.Pattern;
 
 public class BJInputProcessor implements InputProcessor {
-    private static final int YES = 1;
-    private static final int NO = 2;
+    private static final String YES = "1";
 
-    public static boolean getBooleanAnswer(Scanner scanner) {
-        while (true) {
-            try {
+    public static boolean getBooleanAnswer() {
+        try (Scanner scanner = new Scanner(System.in)) {
+            while (true) {
                 String input = scanner.nextLine();
 
-                validateYesOrNo(input);
+                if (!InputValidator.isOneOrTwo(input)) {
+                    Viewer.printInfo(ViewerStatus.INVALID_INPUT);
+                    continue;
+                }
 
-                return input.equals("1");
-            } catch (IllegalStateException e) {
-                e.printStackTrace();
-            } finally {
-                Viewer.printInfo(ViewerStatus.INVALID_INPUT);
+                return input.equals(YES);
             }
         }
     }
-    public static void validateYesOrNo(String input) throws IllegalStateException{
-        if(!Pattern.matches("^[1|2]$",input)){
-            throw new IllegalStateException();
+
+    public static long getLongValue(){
+        Scanner scanner = new Scanner(System.in);
+        while (true) {
+            String input = scanner.nextLine();
+
+            if (!InputValidator.isLong(input)) {
+                Viewer.printInfo(ViewerStatus.INVALID_BETTING_INPUT);
+                continue;
+            }
+
+            return Long.parseLong(input);
         }
     }
 }

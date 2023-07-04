@@ -40,13 +40,6 @@ public class BJPlayerHandImpl extends BlackJackHandImpl implements BJPlayerHand 
     }
 
     @Override
-    public boolean canDoubleDown(BJPlayer player){
-        long betMoney = player.getBettingAmount();
-        long playerMoney = player.getWallet().getBalance();
-        return playerMoney >= betMoney;
-    }
-
-    @Override
     public void initValues(){
         super.initValues();
         count = 0;

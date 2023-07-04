@@ -10,4 +10,5 @@ public interface BJPlayer extends Playable, Gambler {
     long getBettingAmount();
     boolean insure();
     boolean isBroke();
+    boolean doubleDown();
 }

@@ -43,7 +43,7 @@ public class BJPlayerImpl extends PlayableImpl implements BJPlayer, Gambler {
         }
 
         wallet.subtract(insurance);
-        ((BJPlayerHand)super.getHand()).setInsured(true);
+        ((BJPlayerHand)super.hand).setInsured(true);
         return true;
     }
 
@@ -53,28 +53,41 @@ public class BJPlayerImpl extends PlayableImpl implements BJPlayer, Gambler {
     }
 
     @Override
+    public boolean doubleDown() {
+        if(bet(bettingAmount)){
+            bettingAmount *= 2;
+            return true;
+        }
+        return false;
+    }
+
+    @Override
     public void bet() {
         Viewer.printInfo(ViewerStatus.BETTING_INFO);
 
         do {
             long amount = BJInputProcessor.getLongValue();
-            if (wallet.getBalance() <= amount) {
-                Viewer.printInfo(ViewerStatus.NO_MONEY_TO_BET);
-                continue;
-            }
-
-            if(amount < BJBettingTurn.BET_MIN || BJBettingTurn.BET_MAX < amount){
-                Viewer.printInfo(ViewerStatus.OUT_OF_BET_LIMIT);
-                continue;
-            }
-
-            if(amount % 100 != 0){
-                Viewer.printInfo(ViewerStatus.INVALID_BETTING_INPUT);
-                continue;
-            }
-
-            bettingAmount = wallet.subtract(amount);
-            break;
+            if(bet(amount)) { break; }
         } while(true);
+    }
+
+    private boolean bet(long amount){
+        if (wallet.getBalance() <= amount) {
+            Viewer.printInfo(ViewerStatus.NO_MONEY_TO_BET);
+            return false;
+        }
+
+        if(amount < BJBettingTurn.BET_MIN || BJBettingTurn.BET_MAX < amount){
+            Viewer.printInfo(ViewerStatus.OUT_OF_BET_LIMIT);
+            return false;
+        }
+
+        if(amount % 100 != 0){
+            Viewer.printInfo(ViewerStatus.INVALID_BETTING_INPUT);
+            return false;
+        }
+
+        bettingAmount = wallet.subtract(amount);
+        return true;
     }
 }

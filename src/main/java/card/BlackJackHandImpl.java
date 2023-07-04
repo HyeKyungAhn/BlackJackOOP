@@ -46,7 +46,7 @@ public class BlackJackHandImpl extends HandImpl implements BlackJackHand{
 
     @Override
     public boolean countAndVerifyBJ() {
-        count = count();
+        count();
         return isBlackJack();
     }
 

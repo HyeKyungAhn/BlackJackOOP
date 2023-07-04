@@ -10,5 +10,4 @@ public interface BJPlayerHand extends BlackJackHand{
     void setEvenMoney(boolean evenMoney);
     boolean isFirstTurnBJ();
     void setFirstTurnBJ(boolean firstTurnBJ);
-    boolean canDoubleDown(BJPlayer player);
 }

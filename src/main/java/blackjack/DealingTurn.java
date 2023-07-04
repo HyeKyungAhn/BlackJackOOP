@@ -1,16 +1,31 @@
 package blackjack;
 
+import blackjack.NextTurnStatus;
 import card.Deck;
-import game.Turn;
 import game.Playable;
+import game.Turn;
 
 import java.util.List;
 
-public class DealingTurn implements Turn {
+public interface DealingTurn extends Turn {
+    static NextTurnStatus nextTurn(List<Playable> players, Deck deck) {
 
-    public static NextTurnStatus nextTurn(List<Playable> players, Deck deck) {
-        //dealing
-        System.out.println("카드 받음");
+        for (Playable playable : players) {
+            playable.hit(deck.giveOneCard());
+            playable.hit(deck.giveOneCard());
+            openCards(playable);
+        }
+
         return NextTurnStatus.PLAYER_TURN;
+    }
+
+    static void openCards(Playable playable) {
+        if(playable instanceof Dealer){
+            Viewer.printInfo(ViewerStatus.DEALER_HAND);
+        } else {
+            Viewer.printInfo(ViewerStatus.PLAYER_HAND);
+        }
+
+        Viewer.showCards(playable.open());
     }
 }

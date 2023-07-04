@@ -3,9 +3,9 @@ package money;
 public class VirtualWallet {
     long balance;
 
-    VirtualWallet(){}
+    public VirtualWallet(){}
 
-    VirtualWallet(long amount) {
+    public VirtualWallet(long amount) {
         balance = amount;
     }
 
@@ -16,4 +16,13 @@ public class VirtualWallet {
     public void getWinning(long amount) {
         balance += amount;
     }
+
+    public long subtract(long amount) {
+        if (amount > balance) {
+            throw new IllegalStateException("지갑에서 잔액보다 더 많은 금액 출금 시도");
+        }
+        balance -= amount;
+        return amount;
+    }
+
 }

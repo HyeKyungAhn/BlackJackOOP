@@ -21,6 +21,10 @@ public class BlackJackGame implements Game {
             hasNext = !player.isBroke() && !round.isFinal;
         } while (hasNext);
 
+        if(player.isBroke()){
+            Viewer.printInfo(ViewerStatus.NO_MONEY);
+            return;
+        }
         Viewer.printInfo(ViewerStatus.GAME_END);
     }
 }

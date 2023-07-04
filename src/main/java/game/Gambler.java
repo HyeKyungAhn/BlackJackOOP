@@ -1,5 +1,7 @@
 package game;
 
+import java.util.Scanner;
+
 public interface Gambler {
-    boolean bet(int amount);
+    void bet();
 }

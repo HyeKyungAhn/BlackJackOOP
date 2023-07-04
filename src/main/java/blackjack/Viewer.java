@@ -32,6 +32,17 @@ public class Viewer {
                 System.out.print("딜러 패 : "); break;
             case PLAYER_HAND:
                 System.out.print("플레이어 패 : "); break;
+            case CONFIRM_INSURANCE:
+                System.out.println("딜러의 카드가 A 입니다. 인셔런스를 지불하시겠습니까? 네:1, 아니요:2"); break;
+            case NO_MONEY_TO_INSURE:
+                System.out.println("베팅머니가 부족해 인슈어런스를 지불할 수 없습니다.\n게임을 진행하겠습니다."); break;
+            case COMPLETE_INSURANCE_PAYMENT:
+                System.out.println("인슈어런스를 지불하였습니다."); break;
+            case CONFIRM_EVEN_MONEY:
+                System.out.println("이븐머니를 하시겠습니까? 네:1, 아니요:2"); break;
+            case CONFIRM_DOUBLE_DOWN:
+                System.out.println("더블다운을 하시겠습니까? 네:1, 아니요:2"); break;
+
         }
     }
 

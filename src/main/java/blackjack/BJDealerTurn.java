@@ -17,24 +17,19 @@ public class BJDealerTurn implements DealerTurn {
 
     @Override
     public NextTurnStatus nextTurn() {
-        BJDealerHand dealerHand = (BJDealerHand) dealer.getHand();
-
-        Viewer.showCards(dealer.totalOpen());
-        repeatHitTo17(dealerHand);
-
-        // dealer isBusted 확인 안해도 될 듯
+        repeatHitTo17(dealer);
 
         return NextTurnStatus.LAZY_SETTLING_TURN;
     }
 
-    private void repeatHitTo17(BJDealerHand dealerHand){
-        int count;
-        do {
-            count = dealerHand.count();
+    private void repeatHitTo17(BJDealer dealer){
+        BJDealerHand dealerHand = (BJDealerHand) dealer.getHand();
 
-            if (isUnder17(count)) {
+        do {
+            Viewer.showCards(dealer.totalOpen());
+
+            if (isUnder17(dealerHand.count())) {
                 dealer.hit(deck.giveOneCard());
-                Viewer.showCards(dealer.open());
                 continue;
             }
             break;

@@ -19,7 +19,11 @@ public class BJDealerHandImpl extends BlackJackHandImpl implements BJDealerHand{
 
     @Override
     public void openHiddenCard(){
-        super.getCards().set(0, hiddenCard);
+        List<Card> cards = super.cards;
+
+        cards.remove(getImitationCard());
+        cards.add(hiddenCard);
+
         hiddenCard = null;
     }
 
@@ -28,6 +32,16 @@ public class BJDealerHandImpl extends BlackJackHandImpl implements BJDealerHand{
         List<Card> cards = super.getCards();
         String pipOrCourt = cards.get(1).getPipOrCourt();
         return pipOrCourt.equals("A");
+    }
+
+    @Override
+    public Card getImitationCard() {
+        for (Card card : super.cards) {
+            if(card.getPipOrCourt().equals("")){
+                return card;
+            }
+        }
+        return null;
     }
 
     @Override

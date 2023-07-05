@@ -44,7 +44,18 @@ public class Viewer {
                 System.out.println("더블다운을 하시겠습니까? 네:1, 아니요:2"); break;
             case CONFIRM_OTHER_HITS:
                 System.out.println("한 장 더 받으시겠습니까? 네:1, 아니요:2"); break;
-
+            case PLAYER_WIN:
+                System.out.println("Winner winner chicken dinner! 게임에서 이겼습니다!"); break;
+            case DOUBLE_WINNING:
+                System.out.println("베팅액 2배를 상금으로 얻었습니다!"); break;
+            case GET_INSURANCE:
+                System.out.println("다행히 인슈어런스로 원금을 지켰습니다."); break;
+            case DEALER_BUSTED:
+                System.out.println("딜러가 버스트(bust) 되었습니다!"); break;
+            case PLAYER_BUSTED:
+                System.out.println("버스트(bust) 되었습니다! 베팅액을 회수합니다."); break;
+            case TAKE_INSURANCE:
+                System.out.print("보험금을 제외한 "); break;
         }
     }
 

@@ -6,6 +6,8 @@ import game.Gambler;
 import game.PlayableImpl;
 import money.VirtualWallet;
 
+import java.util.Scanner;
+
 public class BJPlayerImpl extends PlayableImpl implements BJPlayer, Gambler {
     VirtualWallet wallet;
     long bettingAmount;
@@ -68,11 +70,11 @@ public class BJPlayerImpl extends PlayableImpl implements BJPlayer, Gambler {
     }
 
     @Override
-    public void bet() {
+    public void bet(Scanner scanner) {
         Viewer.printInfo(ViewerStatus.BETTING_INFO);
 
         do {
-            long amount = BJInputProcessor.getLongValue();
+            long amount = BJInputProcessor.getLongValue(scanner);
             if(bet(amount)) { break; }
         } while(true);
     }

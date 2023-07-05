@@ -1,13 +1,23 @@
 package blackjack;
 
 import card.Deck;
-import game.Gambler;
 import game.Playable;
+import game.Turn;
 
 import java.util.List;
 
-public class BJDealingTurn implements TurnWithDeck {
-    public NextTurnStatus nextTurn(List<Playable> players, Deck deck) {
+public class BJDealingTurn implements Turn {
+    List<Playable> players;
+    Deck deck;
+
+    BJDealingTurn(){}
+
+    BJDealingTurn(List<Playable> players, Deck deck) {
+        this.players = players;
+        this.deck = deck;
+    }
+
+    public NextTurnStatus nextTurn() {
 
         for (Playable playable : players) {
             playable.hit(deck.giveOneCard());

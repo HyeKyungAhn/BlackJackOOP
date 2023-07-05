@@ -4,9 +4,11 @@ import card.Deck;
 import game.Gambler;
 import game.Playable;
 import game.Round;
+import game.Turn;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class BlackJackRound implements Round {
     List<Gambler> gamblers; //player (can bet)
@@ -14,24 +16,27 @@ public class BlackJackRound implements Round {
     List<Playable> players; //player + dealer
     Deck deck; //추상화 필요
 
-    GamblerTurn bettingTurn;
-    TurnWithDeck dealingTurn;
-    TurnWithDeck playerTurn;
-    DealerTurn dealerTurn;
-    SettlingTurn lazySettlingTurn;
-    SettlingTurn earlySettlingTurn;
+    Scanner scanner;
+
+    Turn bettingTurn;
+    Turn dealingTurn;
+    Turn playerTurn;
+    Turn dealerTurn;
+    Turn lazySettlingTurn;
+    Turn earlySettlingTurn;
 
     NextTurnStatus nextTurn = NextTurnStatus.INITIAL;
     boolean isFinal = false;
 
     BlackJackRound(){}
 
-    BlackJackRound(List<Playable> players){
-        initTurns();
-
+    BlackJackRound(List<Playable> players, Scanner scanner){
         this.players = players;
+        this.scanner = scanner;
         this.gamblers = new ArrayList<>();
         this.deck = new Deck();
+
+        initTurns();
 
         players.forEach(player -> {
             if(player instanceof Gambler) {
@@ -43,12 +48,12 @@ public class BlackJackRound implements Round {
     }
 
     private void initTurns() {
-        bettingTurn = new BJBettingTurn();
-        dealingTurn = new BJDealingTurn();
-        playerTurn = new BJPlayerTurn();
-        dealerTurn = new BJDealerTurn();
-        lazySettlingTurn = new BJLazySettlingTurn();
-        earlySettlingTurn = new BJEarlySettlingTurn();
+        bettingTurn = new BJBettingTurn(gamblers, scanner);
+        dealingTurn = new BJDealingTurn(players, deck);
+        playerTurn = new BJPlayerTurn(players, deck, scanner);
+        dealerTurn = new BJDealerTurn(dealer, deck);
+        lazySettlingTurn = new BJLazySettlingTurn(players);
+        earlySettlingTurn = new BJEarlySettlingTurn(players);
     }
 
     @Override
@@ -59,7 +64,10 @@ public class BlackJackRound implements Round {
         } while (nextTurn != NextTurnStatus.FINISH_TURN);
 
         Viewer.printInfo(ViewerStatus.ROUND_END);
-        isFinal = BJInputProcessor.getBooleanAnswer();
+
+        if(!(isFinal = BJInputProcessor.getBooleanAnswer(scanner))){
+            nextTurn =  NextTurnStatus.INITIAL;
+        }
     }
 
     @Override
@@ -70,27 +78,27 @@ public class BlackJackRound implements Round {
             } break;
 
             case BETTING_TURN: {
-                nextTurn = bettingTurn.nextTurn(gamblers);
+                nextTurn = bettingTurn.nextTurn();
             } break;
 
             case DEALING_TURN: {
-                nextTurn = dealingTurn.nextTurn(players, deck);
+                nextTurn = dealingTurn.nextTurn();
             } break;
 
             case PLAYER_TURN: {
-                nextTurn = playerTurn.nextTurn(players, deck);
+                nextTurn = playerTurn.nextTurn();
             } break;
 
             case DEALER_TURN: {
-                nextTurn = dealerTurn.nextTurn(dealer, deck);
+                nextTurn = dealerTurn.nextTurn();
             } break;
 
             case EARLY_SETTLING_TURN: {
-                nextTurn = earlySettlingTurn.nextTurn(players);
+                nextTurn = earlySettlingTurn.nextTurn();
             } break;
 
             case LAZY_SETTLING_TURN: {
-                nextTurn = lazySettlingTurn.nextTurn(players);
+                nextTurn = lazySettlingTurn.nextTurn();
             } break;
         }
 

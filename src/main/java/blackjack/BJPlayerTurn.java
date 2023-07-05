@@ -4,18 +4,33 @@ import card.BJDealerHand;
 import card.BJPlayerHand;
 import card.Deck;
 import game.Playable;
+import game.Turn;
 
 import java.util.List;
+import java.util.Scanner;
 
 /**
  * BJPlayerTurn controls player's choice
  *
- * In some cases, player can choose whether to insure, double down,
- * bet even money or hit additionally
+ * In some cases, player can choose whether to insure, double down
+ * , bet even money or hit additionally
  * **/
-public class BJPlayerTurn implements TurnWithDeck {
+
+public class BJPlayerTurn implements Turn {
+    List<Playable> players;
+    Deck deck;
+    Scanner scanner;
+
+    BJPlayerTurn(){}
+
+    BJPlayerTurn(List<Playable> players, Deck deck, Scanner scanner){
+        this.players = players;
+        this.deck = deck;
+        this.scanner = scanner;
+    }
+
     @Override
-    public NextTurnStatus nextTurn(List<Playable> players, Deck deck) {
+    public NextTurnStatus nextTurn() {
         BJPlayer player = null;
         BJDealer dealer = null;
 
@@ -57,7 +72,7 @@ public class BJPlayerTurn implements TurnWithDeck {
     private void insure(BJPlayer player) { //메서드 이름 변경 필요
         Viewer.printInfo(ViewerStatus.CONFIRM_INSURANCE);
 
-        if(!BJInputProcessor.getBooleanAnswer()) return;
+        if(!BJInputProcessor.getBooleanAnswer(scanner)) return;
 
         if(player.insure()){
             Viewer.printInfo(ViewerStatus.COMPLETE_INSURANCE_PAYMENT);
@@ -69,7 +84,7 @@ public class BJPlayerTurn implements TurnWithDeck {
     private NextTurnStatus evenMoney(BJPlayer player) { //메서드 이름 변경 필요
         Viewer.printInfo(ViewerStatus.CONFIRM_EVEN_MONEY);
 
-        if(!BJInputProcessor.getBooleanAnswer()) return NextTurnStatus.EARLY_SETTLING_TURN;
+        if(!BJInputProcessor.getBooleanAnswer(scanner)) return NextTurnStatus.EARLY_SETTLING_TURN;
 
         player.betEvenMoney();
 
@@ -78,7 +93,7 @@ public class BJPlayerTurn implements TurnWithDeck {
 
     private boolean confirmDoubleDown(){
         Viewer.printInfo(ViewerStatus.CONFIRM_DOUBLE_DOWN);
-        return BJInputProcessor.getBooleanAnswer();
+        return BJInputProcessor.getBooleanAnswer(scanner);
     }
 
     private NextTurnStatus doubleDown(BJPlayer player, Deck deck) {
@@ -98,7 +113,7 @@ public class BJPlayerTurn implements TurnWithDeck {
         while(true){
             Viewer.printInfo(ViewerStatus.CONFIRM_OTHER_HITS);
 
-            if(!BJInputProcessor.getBooleanAnswer()) {
+            if(!BJInputProcessor.getBooleanAnswer(scanner)) {
                 return NextTurnStatus.DEALER_TURN;
             }
 

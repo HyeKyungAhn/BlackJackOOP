@@ -42,6 +42,8 @@ public class Viewer {
                 System.out.println("이븐머니를 하시겠습니까? 네:1, 아니요:2"); break;
             case CONFIRM_DOUBLE_DOWN:
                 System.out.println("더블다운을 하시겠습니까? 네:1, 아니요:2"); break;
+            case CONFIRM_OTHER_HITS:
+                System.out.println("한 장 더 받으시겠습니까? 네:1, 아니요:2"); break;
 
         }
     }

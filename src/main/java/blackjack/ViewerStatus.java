@@ -27,4 +27,5 @@ public enum ViewerStatus {
     DEALER_BUSTED,
     GET_INSURANCE,
     TAKE_INSURANCE,
+    LOSE_BETTING_AMOUNT,
 }

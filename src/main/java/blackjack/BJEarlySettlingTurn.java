@@ -13,34 +13,35 @@ public class BJEarlySettlingTurn implements TurnWithPlayerAndDealer {
         dealer.totalOpen();
 
         if(playerHand.isBlackJack()){ //no even money
-            giveWinnings(player, 2.0, false);
+            giveWinnings(player, 2.0);
 
             Viewer.printInfo(ViewerStatus.PLAYER_WIN);
             Viewer.printInfo(ViewerStatus.DOUBLE_WINNING);
         }
 
         if(playerHand.isBusted()){
-            if(playerHand.isInsured()){
-                giveWinnings(player, 1.0, false);
+            Viewer.printInfo(ViewerStatus.PLAYER_BUSTED);
+            giveWinnings(player, 1.0);
 
+            if(playerHand.isInsured()){
                 Viewer.printInfo(ViewerStatus.GET_INSURANCE);
             } else {
-                Viewer.printInfo(ViewerStatus.PLAYER_BUSTED);
+                Viewer.printInfo(ViewerStatus.LOSE_BETTING_AMOUNT);
             }
         }
 
         if (dealerHand.isBusted()) {
+            Viewer.printInfo(ViewerStatus.DEALER_BUSTED);
             Viewer.printInfo(ViewerStatus.PLAYER_WIN);
 
-            if(playerHand.isInsured()){
-                giveWinnings(player, 2.0, true);
+            giveWinnings(player, 2.0);
 
+            if(playerHand.isInsured()){
                 Viewer.printInfo(ViewerStatus.TAKE_INSURANCE);
                 Viewer.printInfo(ViewerStatus.DOUBLE_WINNING);
             }
 
-            giveWinnings(player, 2.0, false);
-            Viewer.printInfo(ViewerStatus.PLAYER_WIN);
+            Viewer.printInfo(ViewerStatus.DOUBLE_WINNING);
         }
 
         initHands(player, dealer);
@@ -53,16 +54,9 @@ public class BJEarlySettlingTurn implements TurnWithPlayerAndDealer {
         dealer.initValues();
     }
 
-    private void giveWinnings(BJPlayer player, double rate, boolean isInsured){
-        if(isInsured){
-            long insurance = player.getBettingAmount()/2;
-            long winnings = (long) (player.getBettingAmount() * rate - insurance);
+    private void giveWinnings(BJPlayer player, double rate){
+        long winnings = (long) (player.getBettingAmount() * rate);
 
-            player.getWallet().getWinning(winnings);
-        } else {
-            long winnings = (long) (player.getBettingAmount() * rate);
-
-            player.getWallet().getWinning(winnings);
-        }
+        player.getWallet().getWinning(winnings);
     }
 }

@@ -53,7 +53,9 @@ public class Viewer {
             case DEALER_BUSTED:
                 System.out.println("딜러가 버스트(bust) 되었습니다!"); break;
             case PLAYER_BUSTED:
-                System.out.println("버스트(bust) 되었습니다! 베팅액을 회수합니다."); break;
+                System.out.println("버스트(bust) 되었습니다!"); break;
+            case LOSE_BETTING_AMOUNT:
+                System.out.println("베팅액을 회수합니다."); break;
             case TAKE_INSURANCE:
                 System.out.print("보험금을 제외한 "); break;
         }

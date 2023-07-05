@@ -20,23 +20,4 @@ public class BJDealerImpl extends PlayableImpl implements BJDealer {
         ((BJDealerHand) super.hand).openHiddenCard();
         return open();
     }
-
-    public boolean repeatHitTo17(Deck deck){
-        boolean didHit = false;
-        do {
-            int count = ((BJDealerHand) hand).getCount();
-
-            if (isUnder17(count)) {
-                didHit = true;
-                continue;
-            }
-            break;
-        } while (true);
-
-        return didHit;
-    }
-
-    private boolean isUnder17(int count){
-        return count < 17;
-    }
 }

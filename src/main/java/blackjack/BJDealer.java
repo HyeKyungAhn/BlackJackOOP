@@ -8,5 +8,4 @@ import java.util.List;
 
 public interface BJDealer extends Playable {
     List<Card> totalOpen();
-    boolean repeatHitTo17(Deck deck);
 }

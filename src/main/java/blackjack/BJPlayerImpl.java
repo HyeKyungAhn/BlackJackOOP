@@ -45,7 +45,7 @@ public class BJPlayerImpl extends PlayableImpl implements BJPlayer, Gambler {
         }
 
         wallet.subtract(insurance);
-        ((BJPlayerHand)super.hand).setInsured(true);
+        ((BJPlayerHand)hand).setInsured(true);
         return true;
     }
 
@@ -56,7 +56,7 @@ public class BJPlayerImpl extends PlayableImpl implements BJPlayer, Gambler {
 
     @Override
     public void betEvenMoney() {
-        BJPlayerHand playerHand = ((BJPlayerHand)super.hand);
+        BJPlayerHand playerHand = ((BJPlayerHand)hand);
         playerHand.setEvenMoney(true);
     }
 
@@ -67,6 +67,12 @@ public class BJPlayerImpl extends PlayableImpl implements BJPlayer, Gambler {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public void initValues() {
+        bettingAmount = 0;
+        hand.initValues();
     }
 
     @Override

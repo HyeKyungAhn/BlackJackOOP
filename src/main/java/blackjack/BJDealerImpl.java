@@ -16,7 +16,12 @@ public class BJDealerImpl extends PlayableImpl implements BJDealer {
 
     @Override
     public List<Card> totalOpen(){
-        ((BJDealerHand) super.hand).openHiddenCard();
+        ((BJDealerHand) hand).openHiddenCard();
         return open();
+    }
+
+    @Override
+    public void initValues() {
+        hand.initValues();
     }
 }

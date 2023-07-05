@@ -1,8 +1,5 @@
 package card;
 
-import blackjack.BJBettingTurn;
-import blackjack.BJPlayer;
-
 public interface BJPlayerHand extends BlackJackHand{
     boolean isInsured();
     void setInsured(boolean insured);

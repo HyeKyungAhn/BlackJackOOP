@@ -1,20 +1,9 @@
 package blackjack;
 
-import game.Playable;
-import game.Turn;
-
-import java.util.List;
-
-public class BJLazySettlingTurn implements Turn {
-    List<Playable> players;
-
+public class BJLazySettlingTurn implements TurnWithPlayerAndDealer {
     BJLazySettlingTurn(){}
 
-    BJLazySettlingTurn(List<Playable> players) {
-        this.players = players;
-    }
-
-    public NextTurnStatus nextTurn() {
+    public NextTurnStatus nextTurn(BJPlayer player, BJDealer dealer) {
         System.out.println("최종 계산");
         return NextTurnStatus.FINISH_TURN;
     }

@@ -5,7 +5,6 @@ import card.BJPlayerHandImpl;
 import game.*;
 import money.VirtualWallet;
 
-import java.util.Arrays;
 import java.util.Scanner;
 
 public class BlackJackGame implements Game {
@@ -14,7 +13,9 @@ public class BlackJackGame implements Game {
     public void play() {
         BJPlayer player = new BJPlayerImpl(new BJPlayerHandImpl(), new VirtualWallet(1000));
         BJDealer dealer = new BJDealerImpl(new BJDealerHandImpl());
-        BlackJackRound round = new BlackJackRound(Arrays.asList(player, dealer), new Scanner(System.in));
+
+//        List<Playable> players = new ArrayList<>(Arrays.asList(player));
+        BlackJackRound round = new BlackJackRound(player, dealer, new Scanner(System.in));
         boolean hasNext;
 
         Viewer.printInfo(ViewerStatus.NEW_START);

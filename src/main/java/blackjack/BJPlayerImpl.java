@@ -85,7 +85,7 @@ public class BJPlayerImpl extends PlayableImpl implements BJPlayer, Gambler {
             return false;
         }
 
-        if(amount < BJBettingTurn.BET_MIN || BJBettingTurn.BET_MAX < amount){
+        if(amount < BettingTurn.BET_MIN || BettingTurn.BET_MAX < amount){
             Viewer.printInfo(ViewerStatus.OUT_OF_BET_LIMIT);
             return false;
         }

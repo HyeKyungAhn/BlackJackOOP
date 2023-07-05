@@ -3,16 +3,15 @@ package blackjack;
 import card.BJDealerHand;
 import card.Deck;
 import game.Playable;
-import game.Turn;
 
-public class BJDealerTurn implements Turn {
+public class BJDealerTurn implements DealerTurn {
     BJDealer dealer;
     Deck deck;
 
     BJDealerTurn(){}
 
-    BJDealerTurn(BJDealer dealer, Deck deck) {
-        this.dealer = dealer;
+    BJDealerTurn(Playable dealer, Deck deck) {
+        this.dealer = (BJDealer) dealer;
         this.deck = deck;
     }
 
@@ -21,7 +20,6 @@ public class BJDealerTurn implements Turn {
         BJDealerHand dealerHand = (BJDealerHand) dealer.getHand();
 
         Viewer.showCards(dealer.totalOpen());
-
         repeatHitTo17(dealerHand);
 
         // dealer isBusted 확인 안해도 될 듯
@@ -30,8 +28,9 @@ public class BJDealerTurn implements Turn {
     }
 
     private void repeatHitTo17(BJDealerHand dealerHand){
+        int count;
         do {
-            int count = dealerHand.getCount();
+            count = dealerHand.count();
 
             if (isUnder17(count)) {
                 dealer.hit(deck.giveOneCard());

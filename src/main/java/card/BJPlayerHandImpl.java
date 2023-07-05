@@ -1,8 +1,5 @@
 package card;
 
-import blackjack.BJBettingTurn;
-import blackjack.BJPlayer;
-
 public class BJPlayerHandImpl extends BlackJackHandImpl implements BJPlayerHand {
     protected boolean insured = false;
     protected boolean evenMoney;

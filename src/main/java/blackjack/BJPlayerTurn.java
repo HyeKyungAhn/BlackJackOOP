@@ -3,10 +3,6 @@ package blackjack;
 import card.BJDealerHand;
 import card.BJPlayerHand;
 import card.Deck;
-import game.Playable;
-import game.Turn;
-
-import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -16,35 +12,20 @@ import java.util.Scanner;
  * , bet even money or hit additionally
  * **/
 
-public class BJPlayerTurn implements Turn {
-    List<Playable> players;
+public class BJPlayerTurn implements TurnWithPlayerAndDealer {
     Deck deck;
     Scanner scanner;
 
     BJPlayerTurn(){}
 
-    BJPlayerTurn(List<Playable> players, Deck deck, Scanner scanner){
-        this.players = players;
+    BJPlayerTurn(Deck deck, Scanner scanner){
         this.deck = deck;
         this.scanner = scanner;
     }
 
     @Override
-    public NextTurnStatus nextTurn() {
-        BJPlayer player = null;
-        BJDealer dealer = null;
-
-        for(Playable playable : players){
-            if (playable instanceof BJDealer) {
-                dealer = (BJDealer) playable;
-            } else {
-                player = (BJPlayer) playable;
-            }
-        }
-
-        assert dealer != null;
+    public NextTurnStatus nextTurn(BJPlayer player, BJDealer dealer) {
         BJDealerHand dealerHand = (BJDealerHand) dealer.getHand();
-        assert player != null;
         BJPlayerHand playerHand = (BJPlayerHand) player.getHand();
 
         boolean hasDealerACard = dealerHand.hasACard();

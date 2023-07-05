@@ -1,23 +1,31 @@
 package blackjack;
 
+import card.BJDealerHand;
 import card.Deck;
 import game.Playable;
 import game.Turn;
 
 public class BJDealerTurn implements Turn {
-    Playable dealer;
+    BJDealer dealer;
     Deck deck;
 
     BJDealerTurn(){}
 
-    BJDealerTurn(Playable dealer, Deck deck) {
+    BJDealerTurn(BJDealer dealer, Deck deck) {
         this.dealer = dealer;
         this.deck = deck;
     }
 
     @Override
     public NextTurnStatus nextTurn() {
-        System.out.println("딜러 17까지 hit");
+        BJDealerHand dealerHand = (BJDealerHand) dealer.getHand();
+
+        Viewer.showCards(dealer.totalOpen());
+
+        repeatHitTo17(dealerHand);
+
+        // dealer isBusted 확인 안해도 될 듯
+
         return NextTurnStatus.LAZY_SETTLING_TURN;
     }
 

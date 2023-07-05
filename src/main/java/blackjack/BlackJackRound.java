@@ -12,7 +12,7 @@ import java.util.Scanner;
 
 public class BlackJackRound implements Round {
     List<Gambler> gamblers; //player (can bet)
-    Playable dealer; //dealer
+    BJDealer dealer; //dealer
     List<Playable> players; //player + dealer
     Deck deck; //추상화 필요
 
@@ -42,7 +42,7 @@ public class BlackJackRound implements Round {
             if(player instanceof Gambler) {
                 gamblers.add((Gambler) player);
             } else {
-                dealer = player;
+                dealer = (BJDealer) player;
             }
         });
     }

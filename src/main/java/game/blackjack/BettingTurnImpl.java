@@ -1,19 +1,19 @@
 package game.blackjack;
 
-import java.util.Scanner;
+import game.InputProcessor;
 
 public class BettingTurnImpl implements BettingTurn {
-    private Scanner scanner;
+    private InputProcessor inputProcessor;
 
     protected BettingTurnImpl(){}
 
-    protected BettingTurnImpl(Scanner scanner){
-        this.scanner = scanner;
+    protected BettingTurnImpl(InputProcessor inputProcessor){
+        this.inputProcessor = inputProcessor;
     }
 
     @Override
     public NextTurnStatus nextTurn(BJPlayer player) {
-        player.bet(scanner);
+        player.bet(inputProcessor);
         return NextTurnStatus.DEALING_TURN;
     }
 }

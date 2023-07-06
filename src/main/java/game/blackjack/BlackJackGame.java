@@ -4,6 +4,7 @@ import card.blackjack.BJDealerHandImpl;
 import card.blackjack.BJPlayerHandImpl;
 import game.Game;
 import fund.VirtualWallet;
+import game.InputProcessor;
 import viewer.Viewer;
 import viewer.ViewerStatus;
 
@@ -15,8 +16,9 @@ public class BlackJackGame implements Game {
     public void play() {
         BJPlayer player = new BJPlayerImpl(new BJPlayerHandImpl(), new VirtualWallet(1000));
         BJDealer dealer = new BJDealerImpl(new BJDealerHandImpl());
+        InputProcessor inputProcessor = new BJInputProcessor(new Scanner(System.in));
 
-        BlackJackRound round = new BlackJackRound(player, dealer, new Scanner(System.in));
+        BlackJackRound round = new BlackJackRound(player, dealer, inputProcessor);
         boolean hasNext;
 
         Viewer.printInfo(ViewerStatus.NEW_START);

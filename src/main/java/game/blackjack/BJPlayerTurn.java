@@ -3,10 +3,9 @@ package game.blackjack;
 import card.blackjack.BJDealerHand;
 import card.blackjack.BJPlayerHand;
 import card.Deck;
+import game.InputProcessor;
 import viewer.Viewer;
 import viewer.ViewerStatus;
-
-import java.util.Scanner;
 
 /**
  * BJPlayerTurn controls player's choice
@@ -17,13 +16,13 @@ import java.util.Scanner;
 
 public class BJPlayerTurn implements TurnWithPlayerAndDealer {
     Deck deck;
-    Scanner scanner;
+    InputProcessor inputProcessor;
 
     BJPlayerTurn(){}
 
-    BJPlayerTurn(Deck deck, Scanner scanner){
+    BJPlayerTurn(Deck deck, InputProcessor inputProcessor){
         this.deck = deck;
-        this.scanner = scanner;
+        this.inputProcessor = inputProcessor;
     }
 
     @Override
@@ -56,7 +55,7 @@ public class BJPlayerTurn implements TurnWithPlayerAndDealer {
     private void insure(BJPlayer player) { //메서드 이름 변경 필요
         Viewer.printInfo(ViewerStatus.CONFIRM_INSURANCE);
 
-        if(!BJInputProcessor.getBooleanAnswer(scanner)) return;
+        if(!inputProcessor.getBooleanAnswer()) return;
 
         if(player.insure()){
             Viewer.printInfo(ViewerStatus.COMPLETE_INSURANCE_PAYMENT);
@@ -68,7 +67,7 @@ public class BJPlayerTurn implements TurnWithPlayerAndDealer {
     private NextTurnStatus evenMoney(BJPlayer player) { //메서드 이름 변경 필요
         Viewer.printInfo(ViewerStatus.CONFIRM_EVEN_MONEY);
 
-        if(!BJInputProcessor.getBooleanAnswer(scanner)) return NextTurnStatus.EARLY_SETTLING_TURN;
+        if(!inputProcessor.getBooleanAnswer()) return NextTurnStatus.EARLY_SETTLING_TURN;
 
         player.betEvenMoney();
 
@@ -77,7 +76,7 @@ public class BJPlayerTurn implements TurnWithPlayerAndDealer {
 
     private boolean confirmDoubleDown(){
         Viewer.printInfo(ViewerStatus.CONFIRM_DOUBLE_DOWN);
-        return BJInputProcessor.getBooleanAnswer(scanner);
+        return inputProcessor.getBooleanAnswer();
     }
 
     private NextTurnStatus doubleDown(BJPlayer player, Deck deck) {
@@ -97,7 +96,7 @@ public class BJPlayerTurn implements TurnWithPlayerAndDealer {
         while(true){
             Viewer.printInfo(ViewerStatus.CONFIRM_OTHER_HITS);
 
-            if(!BJInputProcessor.getBooleanAnswer(scanner)) {
+            if(!inputProcessor.getBooleanAnswer()) {
                 return NextTurnStatus.DEALER_TURN;
             }
 

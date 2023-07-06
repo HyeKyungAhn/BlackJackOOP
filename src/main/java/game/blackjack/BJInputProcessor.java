@@ -7,9 +7,16 @@ import viewer.ViewerStatus;
 import java.util.Scanner;
 
 public class BJInputProcessor implements InputProcessor {
-    private static final String YES = "1";
+    Scanner scanner;
 
-    public static boolean getBooleanAnswer(Scanner scanner) {
+    BJInputProcessor(){}
+
+    BJInputProcessor(Scanner scanner) {
+        this.scanner = scanner;
+    }
+
+    @Override
+    public boolean getBooleanAnswer() {
         while (true) {
             String input = scanner.nextLine();
 
@@ -22,7 +29,8 @@ public class BJInputProcessor implements InputProcessor {
         }
     }
 
-    public static long getLongValue(Scanner scanner){
+    @Override
+    public long getLongValue() {
         while (true) {
             String input = scanner.nextLine();
 

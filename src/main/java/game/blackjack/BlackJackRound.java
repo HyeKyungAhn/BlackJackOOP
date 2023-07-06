@@ -1,6 +1,7 @@
 package game.blackjack;
 
 import card.Deck;
+import game.InputProcessor;
 import game.Playable;
 import game.Round;
 import viewer.Viewer;
@@ -25,15 +26,14 @@ public class BlackJackRound implements Round {
     TurnWithPlayerAndDealer lazySettlingTurn;
     TurnWithPlayerAndDealer earlySettlingTurn;
 
+    InputProcessor inputProcessor;
+
     NextTurnStatus nextTurn = NextTurnStatus.INITIAL;
     boolean isFinal = false;
 
     BlackJackRound(){}
-    BlackJackRound(List<Playable> players, BJDealer dealer, Scanner scanner){
 
-    }
-
-    BlackJackRound(BJPlayer player, BJDealer dealer, Scanner scanner){
+    BlackJackRound(BJPlayer player, BJDealer dealer, InputProcessor inputProcessor){
         this.player = player;
         this.dealer = dealer;
 
@@ -41,16 +41,16 @@ public class BlackJackRound implements Round {
         playerAndDealer.add(player);
         playerAndDealer.add(dealer);
 
-        this.scanner = scanner;
+        this.inputProcessor = inputProcessor;
         this.deck = new Deck();
 
         initTurns();
     }
 
     private void initTurns() {
-        bettingTurn = new BettingTurnImpl(scanner);
+        bettingTurn = new BettingTurnImpl(inputProcessor);
         dealingTurn = new BJDealingTurn(deck);
-        playerTurn = new BJPlayerTurn(deck, scanner);
+        playerTurn = new BJPlayerTurn(deck, inputProcessor);
         dealerTurn = new BJDealerTurn(dealer, deck);
         lazySettlingTurn = new BJLazySettlingTurn();
         earlySettlingTurn = new BJEarlySettlingTurn();
@@ -65,7 +65,7 @@ public class BlackJackRound implements Round {
 
         Viewer.printInfo(ViewerStatus.ROUND_END);
 
-        if(!(isFinal = BJInputProcessor.getBooleanAnswer(scanner))){
+        if(!(isFinal = inputProcessor.getBooleanAnswer())){
             nextTurn =  NextTurnStatus.INITIAL;
         }
     }

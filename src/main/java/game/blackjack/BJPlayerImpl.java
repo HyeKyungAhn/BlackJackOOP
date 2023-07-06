@@ -3,6 +3,7 @@ package game.blackjack;
 import card.blackjack.BJPlayerHand;
 import card.Hand;
 import game.Gambler;
+import game.InputProcessor;
 import game.PlayableImpl;
 import fund.VirtualWallet;
 import viewer.Viewer;
@@ -78,11 +79,11 @@ public class BJPlayerImpl extends PlayableImpl implements BJPlayer, Gambler {
     }
 
     @Override
-    public void bet(Scanner scanner) {
+    public void bet(InputProcessor inputProcessor) {
         Viewer.printInfo(ViewerStatus.BETTING_INFO);
 
         do {
-            long amount = BJInputProcessor.getLongValue(scanner);
+            long amount = inputProcessor.getLongValue();
             if(bet(amount)) { break; }
         } while(true);
     }

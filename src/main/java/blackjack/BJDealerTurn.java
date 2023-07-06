@@ -17,8 +17,13 @@ public class BJDealerTurn implements DealerTurn {
 
     @Override
     public NextTurnStatus nextTurn() {
+        BJDealerHand dealerHand = (BJDealerHand) dealer.getHand();
+
         repeatHitTo17(dealer);
 
+        if(dealerHand.countAndVerifyBusted()){
+            return NextTurnStatus.EARLY_SETTLING_TURN;
+        }
         return NextTurnStatus.LAZY_SETTLING_TURN;
     }
 
@@ -32,6 +37,7 @@ public class BJDealerTurn implements DealerTurn {
                 dealer.hit(deck.giveOneCard());
                 continue;
             }
+
             break;
         } while (true);
     }

@@ -1,7 +1,6 @@
-package blackjack;
+package game.blackjack;
 
 import card.Card;
-import card.Deck;
 import game.Playable;
 
 import java.util.List;

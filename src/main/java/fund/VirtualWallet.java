@@ -1,4 +1,4 @@
-package money;
+package fund;
 
 public class VirtualWallet {
     long balance;

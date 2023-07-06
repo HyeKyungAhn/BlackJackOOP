@@ -1,4 +1,4 @@
-import blackjack.BlackJackGame;
+import game.blackjack.BlackJackGame;
 import game.Game;
 
 public class Table {

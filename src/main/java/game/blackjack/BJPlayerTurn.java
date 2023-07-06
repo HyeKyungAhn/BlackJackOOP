@@ -1,8 +1,11 @@
-package blackjack;
+package game.blackjack;
 
-import card.BJDealerHand;
-import card.BJPlayerHand;
+import card.blackjack.BJDealerHand;
+import card.blackjack.BJPlayerHand;
 import card.Deck;
+import viewer.Viewer;
+import viewer.ViewerStatus;
+
 import java.util.Scanner;
 
 /**

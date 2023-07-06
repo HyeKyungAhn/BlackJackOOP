@@ -1,7 +1,9 @@
-package blackjack;
+package game.blackjack;
 
-import card.BJDealerHand;
-import card.BJPlayerHand;
+import card.blackjack.BJDealerHand;
+import card.blackjack.BJPlayerHand;
+import viewer.Viewer;
+import viewer.ViewerStatus;
 
 public class BJLazySettlingTurn implements TurnWithPlayerAndDealer {
     BJLazySettlingTurn(){}

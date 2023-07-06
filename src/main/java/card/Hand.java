@@ -1,6 +1,7 @@
 package card;
 
-import java.util.ArrayList;
+import card.Card;
+
 import java.util.List;
 
 public interface Hand {

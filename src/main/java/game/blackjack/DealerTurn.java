@@ -1,6 +1,5 @@
-package blackjack;
+package game.blackjack;
 
-import blackjack.NextTurnStatus;
 import game.Turn;
 
 public interface DealerTurn extends Turn {

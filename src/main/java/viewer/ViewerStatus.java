@@ -1,4 +1,4 @@
-package blackjack;
+package viewer;
 
 public enum ViewerStatus {
     NEW_START,

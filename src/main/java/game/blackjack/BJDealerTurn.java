@@ -1,8 +1,9 @@
-package blackjack;
+package game.blackjack;
 
-import card.BJDealerHand;
+import card.blackjack.BJDealerHand;
 import card.Deck;
 import game.Playable;
+import viewer.Viewer;
 
 public class BJDealerTurn implements DealerTurn {
     BJDealer dealer;

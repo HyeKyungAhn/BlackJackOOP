@@ -1,16 +1,18 @@
-package blackjack;
+package game.blackjack;
 
 import card.*;
+import card.Hand;
+import card.blackjack.BJDealerHand;
 import game.PlayableImpl;
 
 import java.util.List;
 
 public class BJDealerImpl extends PlayableImpl implements BJDealer {
 
-    BJDealerImpl(){
+    public BJDealerImpl(){
     }
 
-    BJDealerImpl(Hand hand) {
+    public BJDealerImpl(Hand hand) {
         super(hand);
     }
 

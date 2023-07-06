@@ -1,9 +1,11 @@
-package blackjack;
+package game.blackjack;
 
-import card.BJDealerHandImpl;
-import card.BJPlayerHandImpl;
-import game.*;
-import money.VirtualWallet;
+import card.blackjack.BJDealerHandImpl;
+import card.blackjack.BJPlayerHandImpl;
+import game.Game;
+import fund.VirtualWallet;
+import viewer.Viewer;
+import viewer.ViewerStatus;
 
 import java.util.Scanner;
 
@@ -14,7 +16,6 @@ public class BlackJackGame implements Game {
         BJPlayer player = new BJPlayerImpl(new BJPlayerHandImpl(), new VirtualWallet(1000));
         BJDealer dealer = new BJDealerImpl(new BJDealerHandImpl());
 
-//        List<Playable> players = new ArrayList<>(Arrays.asList(player));
         BlackJackRound round = new BlackJackRound(player, dealer, new Scanner(System.in));
         boolean hasNext;
 

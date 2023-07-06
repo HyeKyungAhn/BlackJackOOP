@@ -1,9 +1,10 @@
-package blackjack;
+package game.blackjack;
 
 import game.InputProcessor;
+import viewer.Viewer;
+import viewer.ViewerStatus;
 
 import java.util.Scanner;
-import java.util.regex.Pattern;
 
 public class BJInputProcessor implements InputProcessor {
     private static final String YES = "1";

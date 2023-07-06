@@ -1,7 +1,10 @@
-package blackjack;
+package game.blackjack;
 
 import card.Deck;
-import game.*;
+import game.Playable;
+import game.Round;
+import viewer.Viewer;
+import viewer.ViewerStatus;
 
 import java.util.ArrayList;
 import java.util.List;

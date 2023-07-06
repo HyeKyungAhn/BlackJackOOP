@@ -1,4 +1,4 @@
-package card;
+package card.blackjack;
 
 public class BJPlayerHandImpl extends BlackJackHandImpl implements BJPlayerHand {
     protected boolean insured = false;

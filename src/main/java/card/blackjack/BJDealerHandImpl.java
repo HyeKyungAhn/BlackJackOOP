@@ -1,8 +1,10 @@
-package card;
+package card.blackjack;
+
+import card.Card;
 
 import java.util.List;
 
-public class BJDealerHandImpl extends BlackJackHandImpl implements BJDealerHand{
+public class BJDealerHandImpl extends BlackJackHandImpl implements BJDealerHand {
     protected Card hiddenCard;
 
     @Override

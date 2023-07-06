@@ -1,4 +1,4 @@
-package blackjack;
+package game.blackjack;
 
 public enum NextTurnStatus {
     INITIAL,

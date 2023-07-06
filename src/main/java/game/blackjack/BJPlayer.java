@@ -1,8 +1,8 @@
-package blackjack;
+package game.blackjack;
 
 import game.Gambler;
 import game.Playable;
-import money.VirtualWallet;
+import fund.VirtualWallet;
 
 public interface BJPlayer extends Playable, Gambler {
     VirtualWallet getWallet();

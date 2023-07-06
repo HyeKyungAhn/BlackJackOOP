@@ -1,4 +1,4 @@
-package blackjack;
+package viewer;
 
 import card.Card;
 

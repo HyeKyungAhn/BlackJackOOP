@@ -1,8 +1,12 @@
-package card;
+package card.blackjack;
+
+import card.Card;
+import card.HandImpl;
+import card.blackjack.BlackJackHand;
 
 import java.util.List;
 
-public class BlackJackHandImpl extends HandImpl implements BlackJackHand{
+public class BlackJackHandImpl extends HandImpl implements BlackJackHand {
     protected int count;
 
     @Override

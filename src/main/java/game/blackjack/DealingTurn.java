@@ -1,6 +1,5 @@
-package blackjack;
+package game.blackjack;
 
-import blackjack.NextTurnStatus;
 import game.Playable;
 import game.Turn;
 

@@ -1,6 +1,8 @@
-package card;
+package card.blackjack;
 
-public interface BlackJackHand extends Hand{
+import card.Hand;
+
+public interface BlackJackHand extends Hand {
     int count();
     int getCount();
     boolean countAndVerifyBJ();

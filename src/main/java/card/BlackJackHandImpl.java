@@ -56,7 +56,13 @@ public class BlackJackHandImpl extends HandImpl implements BlackJackHand{
     }
 
     @Override
+    public boolean countAndVerifyBusted() {
+        count();
+        return isBusted();
+    }
+
+    @Override
     public boolean isBusted() {
-        return count() > 21;
+        return count > 21;
     }
 }

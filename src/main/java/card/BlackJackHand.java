@@ -5,5 +5,6 @@ public interface BlackJackHand extends Hand{
     int getCount();
     boolean countAndVerifyBJ();
     boolean isBlackJack();
+    boolean countAndVerifyBusted();
     boolean isBusted();
 }

@@ -2,30 +2,28 @@ package game.blackjack;
 
 import card.blackjack.BJPlayerHand;
 import card.Hand;
+import fund.Wallet;
 import game.Gambler;
 import game.InputProcessor;
 import game.PlayableImpl;
-import fund.VirtualWallet;
 import viewer.Viewer;
 import viewer.ViewerStatus;
 
-import java.util.Scanner;
-
 public class BJPlayerImpl extends PlayableImpl implements BJPlayer, Gambler {
-    protected VirtualWallet wallet;
+    protected Wallet wallet;
     protected long bettingAmount;
 
     public BJPlayerImpl(){
         super();
     }
 
-    public BJPlayerImpl(Hand hand, VirtualWallet wallet){
+    public BJPlayerImpl(Hand hand, Wallet wallet){
         super(hand);
         this.wallet = wallet;
     }
 
     @Override
-    public VirtualWallet getWallet() {
+    public Wallet getWallet() {
         return wallet;
     }
 

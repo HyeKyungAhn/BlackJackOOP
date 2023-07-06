@@ -4,8 +4,8 @@ import card.Card;
 
 import java.util.List;
 
-public class Viewer {
-    public static void printInfo(ViewerStatus status) {
+public interface Viewer {
+    static void printInfo(ViewerStatus status) {
         switch (status){
             case NEW_START:
                 System.out.println("블랙잭 게임을 시작합니다!"); break;
@@ -48,6 +48,16 @@ public class Viewer {
                 System.out.println("Winner winner chicken dinner! 게임에서 이겼습니다!"); break;
             case PLAYER_LOSE:
                 System.out.println("게임에서 졌습니다."); break;
+            case DEALER_BUSTED:
+                System.out.println("딜러가 버스트(bust) 되었습니다!"); break;
+            case PLAYER_BUSTED:
+                System.out.println("버스트(bust) 되었습니다!"); break;
+            case TIE:
+                System.out.println("비겼습니다!"); break;
+            case DEALER_BLACKJACK:
+                System.out.println("딜러가 블랙잭입니다!"); break;
+            case PLAYER_BLACKJACK:
+                System.out.println("블랙잭입니다!"); break;
             case DOUBLE_PAYOUT:
                 System.out.println("베팅액 2배를 상금으로 얻었습니다!"); break;
             case DOUBLE_AND_HALF_PAYOUT:
@@ -56,10 +66,6 @@ public class Viewer {
                 System.out.println("베팅액 1.5배를 상금으로 얻었습니다!"); break;
             case HALF_PAYOUT:
                 System.out.println("베팅액 0.5배를 상금으로 얻었습니다!"); break;
-            case DEALER_BUSTED:
-                System.out.println("딜러가 버스트(bust) 되었습니다!"); break;
-            case PLAYER_BUSTED:
-                System.out.println("버스트(bust) 되었습니다!"); break;
             case LOSE_BETTING_AMOUNT:
                 System.out.println("베팅액을 회수합니다."); break;
             case TAKE_INSURANCE:
@@ -68,19 +74,13 @@ public class Viewer {
                 System.out.println("다행히 인슈어런스로 원금을 지켰습니다."); break;
             case GIVE_INSURANCE_COMPENSATION:
                 System.out.print("딜러가 블랙잭이므로 인슈어런스 수당을 포함한 "); break;
-            case TIE:
-                System.out.println("비겼습니다!"); break;
-            case DEALER_BLACKJACK:
-                System.out.println("딜러가 블랙잭입니다!"); break;
-            case PLAYER_BLACKJACK:
-                System.out.println("블랙잭입니다!"); break;
             case GIVE_PRINCIPAL:
                 System.out.println("원금을 돌려드립니다.");
 
         }
     }
 
-    public static void showCards(List<Card> cards){
+    static void showCards(List<Card> cards){
         for (Card card : cards) {
             System.out.print(card + "  ");
         }

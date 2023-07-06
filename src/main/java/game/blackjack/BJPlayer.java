@@ -1,11 +1,11 @@
 package game.blackjack;
 
+import fund.Wallet;
 import game.Gambler;
 import game.Playable;
-import fund.VirtualWallet;
 
 public interface BJPlayer extends Playable, Gambler {
-    VirtualWallet getWallet();
+    Wallet getWallet();
     void setBettingAmount(long bettingAmount);
     long getBettingAmount();
     boolean insure();

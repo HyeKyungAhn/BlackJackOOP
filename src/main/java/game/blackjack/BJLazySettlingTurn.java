@@ -70,15 +70,9 @@ public class BJLazySettlingTurn implements TurnWithPlayerAndDealer {
 
         Viewer.printInfo(ViewerStatus.PLAYER_BLACKJACK);
 
-        if (playerHand.isInsured()) {
-            givePayout(player, 2.0);
-            Viewer.printInfo(ViewerStatus.GIVE_INSURANCE_COMPENSATION);
-            Viewer.printInfo(ViewerStatus.DOUBLE_PAYOUT);
-        } else {
-            givePayout(player, 1.0);
-            Viewer.printInfo(ViewerStatus.TIE);
-            Viewer.printInfo(ViewerStatus.GIVE_PRINCIPAL);
-        }
+        givePayout(player, 2.5);
+        Viewer.printInfo(ViewerStatus.TAKE_INSURANCE);
+        Viewer.printInfo(ViewerStatus.DOUBLE_AND_HALF_PAYOUT);
     }
 
     private void handleDealerBlackjack(BJPlayer player) {
@@ -94,7 +88,7 @@ public class BJLazySettlingTurn implements TurnWithPlayerAndDealer {
             Viewer.printInfo(ViewerStatus.PLAYER_LOSE);
 
             if (playerHand.isInsured()) {
-                givePayout(player, 1.0);
+                givePayout(player, 1.5);
                 Viewer.printInfo(ViewerStatus.GIVE_INSURANCE_WHEN_LOSE);
             } else {
                 Viewer.printInfo(ViewerStatus.LOSE_BETTING_AMOUNT);

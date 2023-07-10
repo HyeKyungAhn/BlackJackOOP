@@ -77,17 +77,15 @@ public class BJPlayerImpl extends PlayableImpl implements BJPlayer, Gambler {
     }
 
     @Override
-    public void bet(InputProcessor inputProcessor) {
+    public boolean bet(InputProcessor inputProcessor) {
         Viewer.printInfo(ViewerStatus.BETTING_INFO);
+        long amount = inputProcessor.getLongValue();
 
-        do {
-            long amount = inputProcessor.getLongValue();
-            if(bet(amount)) { break; }
-        } while(true);
+        return bet(amount);
     }
 
     private boolean bet(long amount){
-        if (wallet.getBalance() <= amount) {
+        if (wallet.getBalance() < amount) {
             Viewer.printInfo(ViewerStatus.NO_MONEY_TO_BET);
             return false;
         }
@@ -102,7 +100,9 @@ public class BJPlayerImpl extends PlayableImpl implements BJPlayer, Gambler {
             return false;
         }
 
-        bettingAmount = wallet.subtract(amount);
+        wallet.subtract(amount);
+        bettingAmount = amount;
+
         return true;
     }
 }

@@ -13,7 +13,10 @@ public class BettingTurnImpl implements BettingTurn {
 
     @Override
     public NextTurnStatus nextTurn(BJPlayer player) {
-        player.bet(inputProcessor);
+        do {
+            if(player.bet(inputProcessor)) break;
+        } while(true);
+
         return NextTurnStatus.DEALING_TURN;
     }
 }

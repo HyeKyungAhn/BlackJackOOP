@@ -36,7 +36,7 @@ class BJPlayerTurnTest{
 
     @Test
     @DisplayName("이븐머니 선택 결과 테스트")
-    void test(){
+    void testEvenMoney(){
         //GIVEN
         long playerBalance = 1000L;
 
@@ -63,7 +63,7 @@ class BJPlayerTurnTest{
 
     @Test
     @DisplayName("이븐머니 선택하지 않는 경우 테스트")
-    void test1(){
+    void testNoEvenMoney(){
         //GIVEN
         long playerBalance = 1000L;
 
@@ -90,7 +90,7 @@ class BJPlayerTurnTest{
 
     @Test
     @DisplayName("인슈어런스 선택, 더블다운 버스트로 인슈어런스 값 테스트")
-    void test2(@Mock Deck deck){
+    void testInsurePlayerWithInsuranceAndDoubleDownBusted(@Mock Deck deck){
         //GIVEN
         long bettingMoney = 1000L;
         long playerBalance = 1000L;
@@ -121,7 +121,7 @@ class BJPlayerTurnTest{
 
     @Test
     @DisplayName("잔액 부족으로 인슈어런스 실패, 더블다운 버스트로 인슈어런스 값 테스트")
-    void test11(@Mock Deck deck){
+    void testInsuredPlayerWithNoEnoughMoneyNDoubleDownNBusted(@Mock Deck deck){
         //GIVEN
         long bettingMoney = 3000L;
         long playerBalance = 1000L;
@@ -152,7 +152,7 @@ class BJPlayerTurnTest{
 
     @Test
     @DisplayName("인슈어런스 미 선택, 더블다운 버스트 테스트")
-    void test3(@Mock Deck deck){
+    void testDoubleNBustedWhenPlayerNotChooseInsure(@Mock Deck deck){
         //GIVEN
         long playerBalance = 1000L;
 
@@ -181,7 +181,7 @@ class BJPlayerTurnTest{
 
     @Test
     @DisplayName("플레이어 블랙잭 && 딜러 A 카드 미보유 테스트")
-    void test4(){
+    void testPlayerWithBJAndDealerWithNoOpenedACard(){
         //GIVEN
         long playerBalance = 1000L;
 
@@ -208,7 +208,7 @@ class BJPlayerTurnTest{
 
     @Test
     @DisplayName("더블다운 & 버스트 테스트")
-    void test5(@Mock Deck deck){
+    void testPlayerWhoDoubleDownAndIsBusted(@Mock Deck deck){
         //GIVEN
         long playerBalance = 1000L;
 
@@ -238,7 +238,7 @@ class BJPlayerTurnTest{
 
     @Test
     @DisplayName("더블다운 & not bust 테스트")
-    void test6(){
+    void testPlayerWhoDoubldDownAndIsNotBusted(){
         //GIVEN
         long playerBalance = 1000L;
 
@@ -265,7 +265,7 @@ class BJPlayerTurnTest{
 
     @Test
     @DisplayName("추가 hit 이후 21 이하의 점수일 때 DealerTurn 으로 넘어가는지 테스트")
-    void test7(){
+    void testNextTurnStatusWhenPlayerHitAnotherHitAndGetCountUnder21(){
         //GIVEN
         long oldBalance = 1000L;
 
@@ -293,7 +293,7 @@ class BJPlayerTurnTest{
 
     @Test
     @DisplayName("카드 한 장 더 받기 후 bust 테스트")
-    void test8(@Mock Deck deck){
+    void testBustSuccessWhenAnotherHit(@Mock Deck deck){
         //GIVEN
         long oldBalance = 1000L;
 
@@ -321,7 +321,7 @@ class BJPlayerTurnTest{
 
     @Test
     @DisplayName("카드 한 장 더 받기 후 blackjack 일 때  테스트")
-    void test9(@Mock Deck deck){
+    void testWhenPlayerHitOneMoreAndGetBJ(@Mock Deck deck){
         //GIVEN
         long oldBalance = 1000L;
 

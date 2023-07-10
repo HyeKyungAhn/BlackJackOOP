@@ -115,7 +115,7 @@ class BJPlayerImplTest extends IOTest{
 
     @Test
     @DisplayName("잔액부족으로 이슈어런스 지불 실패 테스트")
-    void insure() {
+    void testInsureFailWhenPlayerGotNotEnoughMoney() {
         //given
         long playerBalance = 1000L;
         long bettingAmount = 900L;
@@ -138,7 +138,7 @@ class BJPlayerImplTest extends IOTest{
 
     @Test
     @DisplayName("이슈어런스 지불 성공 테스트")
-    void insure2() {
+    void testInsureSuccess() {
         //given
         long playerBalance = 750L;
         long bettingAmount = 500L;

@@ -59,7 +59,7 @@ public class BJPlayerImpl extends PlayableImpl implements BJPlayer, Gambler {
 
     @Override
     public boolean isBroke() {
-        return false;
+        return wallet.getBalance() <= 0;
     }
 
     @Override

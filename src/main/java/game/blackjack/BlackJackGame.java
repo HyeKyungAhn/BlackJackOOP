@@ -31,8 +31,8 @@ public class BlackJackGame implements Game {
 
         if(player.isBroke()){
             Viewer.printInfo(ViewerStatus.NO_MONEY);
-            return;
         }
+
         Viewer.printInfo(ViewerStatus.GAME_END);
     }
 }

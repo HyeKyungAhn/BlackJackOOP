@@ -5,18 +5,17 @@ import java.util.List;
 
 public class Deck {
     //A,2~10,K,Q,J Heart/Spade/Clover/Diamond
-    String[] suitSymbols = {"Heart", "Spade", "Clover", "Diamond"};
-    String[] pipsAndCourts = {"A","2","3","4","5","6","7","8","9","10","K","Q","J"};// 0 == 10
-    static final int NUMBER_OF_PACK = 4;
-    List<Card> deck = new ArrayList<>(suitSymbols.length * pipsAndCourts.length * NUMBER_OF_PACK);
+    private final String[] suitSymbols = {"Heart", "Spade", "Clover", "Diamond"};
+    private final String[] pipsAndCourts = {"A","2","3","4","5","6","7","8","9","10","K","Q","J"};// 0 == 10
+    private static final int NUMBER_OF_PACK = 4;
+    private final List<Card> deck = new ArrayList<>(suitSymbols.length * pipsAndCourts.length * NUMBER_OF_PACK);
 
     public Deck(){
         generateDeck();
         shuffle();
     }
 
-    //public -> private
-    public void generateDeck(){
+    private void generateDeck(){
         for(int i=0; i<NUMBER_OF_PACK; i++){
             for (String suitSymbol : suitSymbols) {
                 for (String pipsAndCourt : pipsAndCourts) {
@@ -47,5 +46,9 @@ public class Deck {
         }
 
         return deck.remove(deck.size() - 1);
+    }
+
+    public List<Card> getDeck(){
+        return deck;
     }
 }

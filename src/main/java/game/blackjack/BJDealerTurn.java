@@ -1,9 +1,12 @@
 package game.blackjack;
 
+import card.Card;
 import card.blackjack.BJDealerHand;
 import card.Deck;
 import game.Playable;
 import viewer.Viewer;
+
+import java.util.List;
 
 public class BJDealerTurn implements DealerTurn {
     BJDealer dealer;
@@ -20,7 +23,7 @@ public class BJDealerTurn implements DealerTurn {
     public NextTurnStatus nextTurn() {
         BJDealerHand dealerHand = (BJDealerHand) dealer.getHand();
 
-        repeatHitTo17(dealer);
+        repeatHitTo17();
 
         if(dealerHand.countAndVerifyBusted()){
             return NextTurnStatus.EARLY_SETTLING_TURN;
@@ -28,11 +31,12 @@ public class BJDealerTurn implements DealerTurn {
         return NextTurnStatus.LAZY_SETTLING_TURN;
     }
 
-    private void repeatHitTo17(BJDealer dealer){
+    private void repeatHitTo17(){
         BJDealerHand dealerHand = (BJDealerHand) dealer.getHand();
 
         do {
-            Viewer.showCards(dealer.totalOpen());
+            List<Card> cards = dealer.totalOpen();
+            Viewer.showCards(cards);
 
             if (isUnder17(dealerHand.count())) {
                 dealer.hit(deck.giveOneCard());

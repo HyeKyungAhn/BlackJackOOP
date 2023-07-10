@@ -179,6 +179,39 @@ class BJLazySettlingTurnTest {
     }
 
     @Test
+    @DisplayName("인슈어런스를 낸 플레이어가 이겼을 때 보험금 제외 한 베팅액 2배 반환 테스트")
+    void testReturnOneAndAHalfPayoutWhenPlayerWithInsuranceWin(){
+        //GIVEN
+        long bettingAmount = 1000L;
+        long playerBalance = 0L;
+
+        BJPlayerHand playerHand = new BJPlayerHandImpl();
+        BJPlayer player = new BJPlayerImpl(playerHand, new VirtualWallet(playerBalance));
+        HandForTest.get20CountHand(player);
+
+        player.setBettingAmount(bettingAmount);
+
+        playerHand.setInsured(true);
+        playerHand.count();
+
+        BJDealerHand dealerHand = new BJDealerHandImpl();
+        BJDealer dealer = new BJDealerImpl(dealerHand);
+        HandForTest.get17CountHand(dealer);
+
+        dealerHand.openHiddenCard();
+        dealerHand.count();
+
+        //WHEN
+        lazySettlingTurn.nextTurn(player, dealer);
+
+        long actualPlayerBalance = player.getWallet().getBalance();
+
+        //THEN
+        assertThat(actualPlayerBalance).isEqualTo(playerBalance + bettingAmount * 2);
+        assertThat(player.getBettingAmount()).isZero();
+    }
+
+    @Test
     @DisplayName("비겼을 때 원금 반환 테스트")
     void testReturnPrincipalWhenTie(){
         //GIVEN
@@ -190,6 +223,39 @@ class BJLazySettlingTurnTest {
         HandForTest.get20CountHand(player);
 
         player.setBettingAmount(bettingAmount);
+
+        playerHand.count();
+
+        BJDealerHand dealerHand = new BJDealerHandImpl();
+        BJDealer dealer = new BJDealerImpl(dealerHand);
+        HandForTest.get20CountHand(dealer);
+
+        dealerHand.openHiddenCard();
+        dealerHand.count();
+
+        //WHEN
+        lazySettlingTurn.nextTurn(player, dealer);
+
+        long actualPlayerBalance = player.getWallet().getBalance();
+
+        //THEN
+        assertThat(actualPlayerBalance).isEqualTo(playerBalance + bettingAmount);
+        assertThat(player.getBettingAmount()).isZero();
+    }
+
+    @Test
+    @DisplayName("인슈어런스를 낸 플레이어가 비겼을 때 원금 반환 테스트")
+    void testReturnPrincipalWhenPlayerWithInsuranceTieWithDealer(){
+        //GIVEN
+        long bettingAmount = 1000L;
+        long playerBalance = 0L;
+
+        BJPlayerHand playerHand = new BJPlayerHandImpl();
+        BJPlayer player = new BJPlayerImpl(playerHand, new VirtualWallet(playerBalance));
+        HandForTest.get20CountHand(player);
+
+        player.setBettingAmount(bettingAmount);
+        playerHand.setInsured(true);
 
         playerHand.count();
 
@@ -242,4 +308,36 @@ class BJLazySettlingTurnTest {
         assertThat(player.getBettingAmount()).isZero();
     }
 
+    @Test
+    @DisplayName("인슈어런스를 낸 플레이어가 패배 시 배팅머니 회수 테스트")
+    void testTakeBettingAmountWhenPlayerWithInsuranceLose(){
+        //GIVEN
+        long bettingAmount = 1000L;
+        long playerBalance = 0L;
+
+        BJPlayerHand playerHand = new BJPlayerHandImpl();
+        BJPlayer player = new BJPlayerImpl(playerHand, new VirtualWallet(playerBalance));
+        HandForTest.get17CountHand(player);
+
+        player.setBettingAmount(bettingAmount);
+
+        playerHand.setInsured(true);
+        playerHand.count();
+
+        BJDealerHand dealerHand = new BJDealerHandImpl();
+        BJDealer dealer = new BJDealerImpl(dealerHand);
+        HandForTest.get20CountHand(dealer);
+
+        dealerHand.openHiddenCard();
+        dealerHand.count();
+
+        //WHEN
+        lazySettlingTurn.nextTurn(player, dealer);
+
+        long actualPlayerBalance = player.getWallet().getBalance();
+
+        //THEN
+        assertThat(actualPlayerBalance).isEqualTo(playerBalance);
+        assertThat(player.getBettingAmount()).isZero();
+    }
 }

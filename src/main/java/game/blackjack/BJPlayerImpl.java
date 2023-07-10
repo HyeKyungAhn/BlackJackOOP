@@ -28,8 +28,15 @@ public class BJPlayerImpl extends PlayableImpl implements BJPlayer, Gambler {
     }
 
     @Override
-    public void setBettingAmount(long bettingAmount) {
-        this.bettingAmount = bettingAmount;
+    public boolean setBettingAmount(long bettingAmount) {
+        // double down 하면 배팅 최대 금액의 2배까지 베팅 가능
+        if (BettingTurn.BET_MIN <= bettingAmount
+                && bettingAmount <= BettingTurn.BET_MAX * 2) {
+
+            this.bettingAmount = bettingAmount;
+            return true;
+        }
+        return false;
     }
 
     @Override

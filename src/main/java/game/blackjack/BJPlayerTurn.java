@@ -85,7 +85,7 @@ public class BJPlayerTurn implements TurnWithPlayerAndDealer {
 
         BJPlayerHand playerHand = (BJPlayerHand) player.getHand();
 
-        if(playerHand.isBusted()){
+        if(playerHand.countAndVerifyBusted()){
             return NextTurnStatus.EARLY_SETTLING_TURN;
         }
 
@@ -105,7 +105,7 @@ public class BJPlayerTurn implements TurnWithPlayerAndDealer {
 
             BJPlayerHand playerHand = (BJPlayerHand) player.getHand();
 
-            if(playerHand.isBusted()){
+            if(playerHand.countAndVerifyBusted()){
                 return NextTurnStatus.EARLY_SETTLING_TURN;
             }
 

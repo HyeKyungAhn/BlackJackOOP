@@ -31,8 +31,13 @@ public class BJLazySettlingTurn implements TurnWithPlayerAndDealer {
         return NextTurnStatus.FINISH_TURN;
     }
 
-    private void handlePlayerLose() {
+    private void handlePlayerLose(BJPlayerHand playerHand) {
         Viewer.printInfo(ViewerStatus.PLAYER_LOSE);
+
+        if(playerHand.isInsured()){
+            Viewer.printInfo(ViewerStatus.INCLUDE_INSURANCE);
+        }
+
         Viewer.printInfo(ViewerStatus.LOSE_BETTING_AMOUNT);
     }
 
@@ -43,8 +48,8 @@ public class BJLazySettlingTurn implements TurnWithPlayerAndDealer {
         givePayout(player, 1.0);
 
         if (playerHand.isInsured()) {
-            Viewer.printInfo(ViewerStatus.TAKE_INSURANCE);
-            Viewer.printInfo(ViewerStatus.HALF_PAYOUT);
+            Viewer.printInfo(ViewerStatus.EXCLUDE_INSURANCE);
+            Viewer.printInfo(ViewerStatus.GIVE_PRINCIPAL);
         } else {
             Viewer.printInfo(ViewerStatus.GIVE_PRINCIPAL);
         }
@@ -58,21 +63,19 @@ public class BJLazySettlingTurn implements TurnWithPlayerAndDealer {
         givePayout(player, 2.0);
 
         if (playerHand.isInsured()) {
-            Viewer.printInfo(ViewerStatus.TAKE_INSURANCE);
-            Viewer.printInfo(ViewerStatus.ONE_AND_A_HALF_PAYOUT);
-        } else {
+            Viewer.printInfo(ViewerStatus.EXCLUDE_INSURANCE);
             Viewer.printInfo(ViewerStatus.DOUBLE_PAYOUT);
+        } else {
+            Viewer.printInfo(ViewerStatus.ONE_PAYOUT);
         }
     }
 
     private void handlePlayerBlackjack(BJPlayer player) {
-        BJPlayerHand playerHand = (BJPlayerHand) player.getHand();
-
         Viewer.printInfo(ViewerStatus.PLAYER_BLACKJACK);
 
         givePayout(player, 2.5);
-        Viewer.printInfo(ViewerStatus.TAKE_INSURANCE);
-        Viewer.printInfo(ViewerStatus.DOUBLE_AND_HALF_PAYOUT);
+
+        Viewer.printInfo(ViewerStatus.ONE_AND_A_HALF_PAYOUT);
     }
 
     private void handleDealerBlackjack(BJPlayer player) {

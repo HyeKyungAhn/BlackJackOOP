@@ -23,9 +23,9 @@ public class BJEarlySettlingTurn implements TurnWithPlayerAndDealer {
 
         if(playerHand.isBusted()){
             Viewer.printInfo(ViewerStatus.PLAYER_BUSTED);
-            givePayout(player, 1.0);
 
-            if(playerHand.isInsured()){
+            if(playerHand.isInsured() && dealerHand.countAndVerifyBJ()){
+                givePayout(player, 1.0);
                 Viewer.printInfo(ViewerStatus.GIVE_INSURANCE_WHEN_LOSE);
             } else {
                 Viewer.printInfo(ViewerStatus.LOSE_BETTING_AMOUNT);

@@ -12,6 +12,7 @@ public class BJLazySettlingTurn implements TurnWithPlayerAndDealer {
         BJPlayerHand playerHand = (BJPlayerHand) player.getHand();
         BJDealerHand dealerHand = (BJDealerHand) dealer.getHand();
 
+        System.out.println("----------------------------------------------");
         if (dealerHand.isBlackJack()) {
             handleDealerBlackjack(player);
         } else {
@@ -22,9 +23,10 @@ public class BJLazySettlingTurn implements TurnWithPlayerAndDealer {
             } else if (isPlayerTie(playerHand, dealerHand)) {
                 handlePlayerTie(player);
             } else {
-                handlePlayerLose();
+                handlePlayerLose(playerHand);
             }
         }
+        System.out.println("----------------------------------------------");
 
         initHands(player, dealer);
 

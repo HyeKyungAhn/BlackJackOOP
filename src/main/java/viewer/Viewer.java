@@ -60,6 +60,8 @@ public interface Viewer {
                 System.out.println("블랙잭입니다!"); break;
             case DOUBLE_PAYOUT:
                 System.out.println("베팅액 2배를 상금으로 얻었습니다!"); break;
+            case ONE_PAYOUT:
+                System.out.println("베팅액 1배를 상금으로 얻었습니다!"); break;
             case DOUBLE_AND_HALF_PAYOUT:
                 System.out.println("베팅액 2.5배를 상금으로 얻었습니다!"); break;
             case ONE_AND_A_HALF_PAYOUT:
@@ -68,8 +70,10 @@ public interface Viewer {
                 System.out.println("베팅액 0.5배를 상금으로 얻었습니다!"); break;
             case LOSE_BETTING_AMOUNT:
                 System.out.println("베팅액을 회수합니다."); break;
-            case TAKE_INSURANCE:
+            case EXCLUDE_INSURANCE:
                 System.out.print("보험금을 제외한 "); break;
+            case INCLUDE_INSURANCE:
+                System.out.print("보험금과 "); break;
             case GIVE_INSURANCE_WHEN_LOSE:
                 System.out.println("다행히 인슈어런스로 원금을 지켰습니다."); break;
             case GIVE_INSURANCE_COMPENSATION:

@@ -31,11 +31,12 @@ public class BJDealerTurn implements DealerTurn {
         return NextTurnStatus.LAZY_SETTLING_TURN;
     }
 
-    private void repeatHitTo17(){
+    private void repeatHitTo17() {
         BJDealerHand dealerHand = (BJDealerHand) dealer.getHand();
 
         do {
             List<Card> cards = dealer.totalOpen();
+            Viewer.printInfo(ViewerStatus.DEALER_HAND);
             Viewer.showCards(cards);
 
             if (isUnder17(dealerHand.count())) {

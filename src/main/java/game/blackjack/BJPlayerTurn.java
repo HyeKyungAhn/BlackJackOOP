@@ -101,6 +101,8 @@ public class BJPlayerTurn implements TurnWithPlayerAndDealer {
             }
 
             player.hit(deck.giveOneCard());
+
+            Viewer.printInfo(ViewerStatus.PLAYER_HAND);
             Viewer.showCards(player.open());
 
             BJPlayerHand playerHand = (BJPlayerHand) player.getHand();

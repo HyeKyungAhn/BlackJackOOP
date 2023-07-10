@@ -14,6 +14,7 @@ public class BJEarlySettlingTurn implements TurnWithPlayerAndDealer {
         BJDealerHand dealerHand = (BJDealerHand) dealer.getHand();
         dealer.totalOpen();
 
+        System.out.println("----------------------------------------------");
         if(playerHand.isBlackJack()){ //no even money
             givePayout(player, 2.0);
 
@@ -39,12 +40,13 @@ public class BJEarlySettlingTurn implements TurnWithPlayerAndDealer {
             givePayout(player, 2.0);
 
             if(playerHand.isInsured()){
-                Viewer.printInfo(ViewerStatus.TAKE_INSURANCE);
+                Viewer.printInfo(ViewerStatus.INCLUDE_INSURANCE);
                 Viewer.printInfo(ViewerStatus.DOUBLE_PAYOUT);
             }
 
             Viewer.printInfo(ViewerStatus.DOUBLE_PAYOUT);
         }
+        System.out.println("----------------------------------------------");
 
         initHands(player, dealer);
 

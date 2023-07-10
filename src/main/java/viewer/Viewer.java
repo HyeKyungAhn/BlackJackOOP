@@ -90,4 +90,8 @@ public interface Viewer {
         }
         System.out.println();
     }
+
+    static void showBalance(long amount) {
+        System.out.println("현재 잔액은 " + amount + "원 입니다.");
+    }
 }

@@ -63,6 +63,7 @@ public class BlackJackRound implements Round {
             process();
         } while (nextTurn != NextTurnStatus.FINISH_TURN);
 
+        Viewer.showBalance(player.getWallet().getBalance());
         Viewer.printInfo(ViewerStatus.ROUND_END);
 
         if(!(isFinal = inputProcessor.getBooleanAnswer())){

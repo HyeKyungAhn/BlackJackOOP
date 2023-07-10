@@ -5,6 +5,7 @@ import card.blackjack.BJDealerHand;
 import card.Deck;
 import game.Playable;
 import viewer.Viewer;
+import viewer.ViewerStatus;
 
 import java.util.List;
 

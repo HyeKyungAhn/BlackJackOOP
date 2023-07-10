@@ -1,6 +1,7 @@
 package game.blackjack;
 
 import game.InputProcessor;
+import viewer.Viewer;
 
 public class BettingTurnImpl implements BettingTurn {
     private InputProcessor inputProcessor;
@@ -13,6 +14,8 @@ public class BettingTurnImpl implements BettingTurn {
 
     @Override
     public NextTurnStatus nextTurn(BJPlayer player) {
+        Viewer.showBalance(player.getWallet().getBalance());
+
         do {
             if(player.bet(inputProcessor)) break;
         } while(true);

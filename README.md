@@ -1,17 +1,17 @@
 # Blackjack game
 
 ## 목차
-1. [introduction](#1.-introduction)
-2. [Game Rules](#2.-game-rules)
-3. [구현](#3.-구현)
+1. [introduction](#introduction)
+2. [Game Rules](#game-rules)
+3. [구현](#구현)
    1. [구현 과정](#구현-과정) 
    2. [class와 interface의 목록과 기능](#class와-interface의-목록과-기능)
    3. [Game 인터페이스의 역할](#Game-인터페이스의-역할)
-   4. [Round&Turn](#Round&Turn)
+   4. [Round와 Turn](#Round와-Turn)
    5. [추상화와 중복코드 제거](#추상화와-중복코드-제거)
 
 ***
-## 1. introduction
+## introduction
 이 Blackjack 게임은
 - 객체지향에 대해 배우기위해 만들기 시작한 블랙잭 게임입니다.
 - **콘솔**로 조작합니다
@@ -20,7 +20,7 @@
 - [이전의 블랙잭 게임 구현](https://github.com/HyeKyungAhn/BlackJackGame) 을 리팩토링한 결과물입니다
 - 추후 인터페이스를 재활용하여 다른 카드게임을 구현할 목적으로 설계했습니다
 
-## 2. Game Rules
+## Game Rules
 
 이 게임에서 구현된 규칙들은 다음과 같습니다.
 
@@ -57,7 +57,7 @@
 자세한 블랙잭 규칙들은 [나무위키(블랙잭 게임)](https://namu.wiki/w/%EB%B8%94%EB%9E%99%EC%9E%AD(%EC%B9%B4%EB%93%9C%EA%B2%8C%EC%9E%84))
 을 참고해주세요.
 
-## 3. 구현
+## 구현
 
 ### class와 interface의 목록과 기능
 
@@ -128,7 +128,7 @@
 따라서 게임을 실행하는 Table 클래스와 실질적으로 게임을 진행하는 인터페이스인 Round 사이에 각 게임을 실행 및 종료하는 Game 인터페이스가 
 위치해있습니다.
 
-### Round&Turn
+### Round와 Turn
 
 이 게임을 구현하는데 가장 어려웠던 것 중 하나는 **게임의 흐름을 제어**하는 부분이었습니다.
 블랙잭 게임은 초기에 플레이어와 딜러가 받는 패에 따라 게임이 조기에 종료될 수도, 마지막 단계까지 거쳐 종료될 수도 있는

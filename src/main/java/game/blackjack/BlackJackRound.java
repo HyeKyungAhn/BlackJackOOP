@@ -50,7 +50,7 @@ public class BlackJackRound implements Round {
     private void initTurns() {
         bettingTurn = new BettingTurnImpl(inputProcessor);
         dealingTurn = new BJDealingTurn(deck);
-        playerTurn = new BJPlayerTurn(deck, inputProcessor);
+        playerTurn = new BJPlayerTurn(deck, inputProcessor, dealer);
         dealerTurn = new BJDealerTurn(dealer, deck);
         lazySettlingTurn = new BJLazySettlingTurn();
         earlySettlingTurn = new BJEarlySettlingTurn();
@@ -87,7 +87,7 @@ public class BlackJackRound implements Round {
             } break;
 
             case PLAYER_TURN: {
-                nextTurn = playerTurn.nextTurn(player, dealer);
+                nextTurn = playerTurn.nextTurn(player);
             } break;
 
             case DEALER_TURN: {
@@ -95,11 +95,11 @@ public class BlackJackRound implements Round {
             } break;
 
             case EARLY_SETTLING_TURN: {
-                nextTurn = earlySettlingTurn.nextTurn(player, dealer);
+                nextTurn = earlySettlingTurn.nextTurn(player);
             } break;
 
             case LAZY_SETTLING_TURN: {
-                nextTurn = lazySettlingTurn.nextTurn(player, dealer);
+                nextTurn = lazySettlingTurn.nextTurn(player);
             } break;
         }
 

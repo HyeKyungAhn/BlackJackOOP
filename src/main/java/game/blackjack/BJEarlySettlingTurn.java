@@ -6,16 +6,23 @@ import viewer.Viewer;
 import viewer.ViewerStatus;
 
 public class BJEarlySettlingTurn implements TurnWithPlayerAndDealer {
+    private BJDealer dealer;
 
     BJEarlySettlingTurn(){}
 
-    public NextTurnStatus nextTurn(BJPlayer player, BJDealer dealer) {
+    BJEarlySettlingTurn(BJDealer dealer){
+        this.dealer = dealer;
+    }
+
+    public NextTurnStatus nextTurn(BJPlayer player) {
         BJPlayerHand playerHand = (BJPlayerHand) player.getHand();
         BJDealerHand dealerHand = (BJDealerHand) dealer.getHand();
+
         dealer.totalOpen();
 
         System.out.println("----------------------------------------------");
-        if(playerHand.isBlackJack()){ //no even money
+
+        if(playerHand.isBlackJack()){ //even money
             givePayout(player, 2.0);
 
             Viewer.printInfo(ViewerStatus.PLAYER_WIN);
@@ -26,7 +33,7 @@ public class BJEarlySettlingTurn implements TurnWithPlayerAndDealer {
             Viewer.printInfo(ViewerStatus.PLAYER_BUSTED);
 
             if(playerHand.isInsured() && dealerHand.countAndVerifyBJ()){
-                givePayout(player, 1.0);
+                givePayout(player, 1.5);
                 Viewer.printInfo(ViewerStatus.GIVE_INSURANCE_WHEN_LOSE);
             } else {
                 Viewer.printInfo(ViewerStatus.LOSE_BETTING_AMOUNT);
@@ -46,6 +53,7 @@ public class BJEarlySettlingTurn implements TurnWithPlayerAndDealer {
 
             Viewer.printInfo(ViewerStatus.DOUBLE_PAYOUT);
         }
+
         System.out.println("----------------------------------------------");
 
         initHands(player, dealer);

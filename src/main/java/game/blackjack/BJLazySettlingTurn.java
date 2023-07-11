@@ -6,13 +6,20 @@ import viewer.Viewer;
 import viewer.ViewerStatus;
 
 public class BJLazySettlingTurn implements TurnWithPlayerAndDealer {
+    private BJDealer dealer;
+
     BJLazySettlingTurn(){}
 
-    public NextTurnStatus nextTurn(BJPlayer player, BJDealer dealer) {
+    BJLazySettlingTurn(BJDealer dealer){
+        this.dealer = dealer;
+    }
+
+    public NextTurnStatus nextTurn(BJPlayer player) {
         BJPlayerHand playerHand = (BJPlayerHand) player.getHand();
         BJDealerHand dealerHand = (BJDealerHand) dealer.getHand();
 
         System.out.println("----------------------------------------------");
+
         if (dealerHand.isBlackJack()) {
             handleDealerBlackjack(player);
         } else {
@@ -26,6 +33,7 @@ public class BJLazySettlingTurn implements TurnWithPlayerAndDealer {
                 handlePlayerLose(playerHand);
             }
         }
+
         System.out.println("----------------------------------------------");
 
         initHands(player, dealer);

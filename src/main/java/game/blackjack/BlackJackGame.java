@@ -16,7 +16,8 @@ public class BlackJackGame implements Game {
     public void play() {
         BJPlayer player = new BJPlayerImpl(new BJPlayerHandImpl(), new VirtualWallet(1000));
         BJDealer dealer = new BJDealerImpl(new BJDealerHandImpl());
-        InputProcessor inputProcessor = new BJInputProcessor(new Scanner(System.in));
+        Scanner scanner = new Scanner(System.in);
+        InputProcessor inputProcessor = new BJInputProcessor(scanner);
 
         BlackJackRound round = new BlackJackRound(player, dealer, inputProcessor);
         boolean hasNext;
@@ -32,6 +33,8 @@ public class BlackJackGame implements Game {
         if(player.isBroke()){
             Viewer.printInfo(ViewerStatus.NO_MONEY);
         }
+
+        scanner.close();
 
         Viewer.printInfo(ViewerStatus.GAME_END);
     }

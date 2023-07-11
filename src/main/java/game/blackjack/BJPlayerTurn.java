@@ -21,14 +21,14 @@ public class BJPlayerTurn implements TurnWithPlayerAndDealer {
 
     BJPlayerTurn(){}
 
-    BJPlayerTurn(Deck deck, InputProcessor inputProcessor){
+    BJPlayerTurn(Deck deck, InputProcessor inputProcessor, BJDealer dealer){
         this.deck = deck;
         this.inputProcessor = inputProcessor;
         this.dealer = dealer;
     }
 
     @Override
-    public NextTurnStatus nextTurn(BJPlayer player, BJDealer dealer) {
+    public NextTurnStatus nextTurn(BJPlayer player) {
         BJDealerHand dealerHand = (BJDealerHand) dealer.getHand();
         BJPlayerHand playerHand = (BJPlayerHand) player.getHand();
 

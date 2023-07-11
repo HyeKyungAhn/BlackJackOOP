@@ -1,13 +1,14 @@
 # Blackjack game
 
 ## 목차
-1. [introduce](#1.-introduction)
-2. [Rules](#2.-game-rules)
+1. [introduction](#1.-introduction)
+2. [Game Rules](#2.-game-rules)
 3. [구현](#3.-구현)
-   1. [class & interface의 목록과 기능](#class-&-interface의-목록과-기능)
-   2. [Game 인터페이스의 역할](#Game-인터페이스의-역할)
-   3. [Round & Turn](#Round-&-Turn)
-   4. [추상화와 중복코드 제거](#추상화와-중복코드-제거)
+   1. [구현 과정](#구현-과정) 
+   2. [class와 interface의 목록과 기능](#class와-interface의-목록과-기능)
+   3. [Game 인터페이스의 역할](#Game-인터페이스의-역할)
+   4. [Round&Turn](#Round&Turn)
+   5. [추상화와 중복코드 제거](#추상화와-중복코드-제거)
 
 ***
 ## 1. introduction
@@ -23,101 +24,42 @@
 
 이 게임에서 구현된 규칙들은 다음과 같습니다.
 
-<details style="outline: none">
-<summary>Blackjack</summary>
-  <div markdown="1">
+- Blackjack
+    - 각 카드에는 점수가 있습니다
+      - A 카드는 1점 또는 11점
+      - J,Q,K는 10점 그 외의 카드는 카드의 숫자와 동일
+    - 카드가 21점이 되면 Blackjack입니다
 
-- 각 카드에는 점수가 있습니다
-  - A 카드는 1점 또는 11점 
-  - J,Q,K는 10점 그 외의 카드는 카드의 숫자와 동일
-- 카드가 21점이 되면 Blackjack입니다
-    </div>
-</details>
+- Hit
+  - 카드 한 장 받기
 
-<details style="outline: none">
-<summary>Hit</summary>
-  <div markdown="1">
+- Insurance
+  - 보여지는 딜러 카드가 A일 때 베팅 금액의 반을 보험금으로 지불 가능
+  - 딜러가 블랙잭일 때 보험수당으로 보험금의 2배를 수령
 
-- 카드 한 장 받기
-    </div>
-</details>
+- Even money
+  - 플레이어의 카드가 Blackjack이고 딜러의 오픈된 카드가 A일 때 선택 가능
+  - 선택 시, 베팅한 금액과 동일한 금액을 승리수당으로 받고 게임 즉시 종료
+  - 미 선택 시, 게임 계속 진행
 
-<details style="outline: none">
-<summary>Insurance</summary>
-  <div markdown="1">
+- double down
+  - 카드를 한 장만 더 받는 조건으로 돈을 두 배로 걸 수 있다
 
-- 보여지는 딜러 카드가 A일 때 베팅 금액의 반을 보험금으로 지불 가능
-- 딜러가 블랙잭일 때 보험수당으로 보험금의 2배를 수령
-    </div>
-</details>
+- stand
+  - 카드를 더 뽑지 않고 멈추는 것
+  - 카드의 합이 21이 넘지 않는 이상 언제든 멈출 수 있다
 
-<details style="outline: none">
-<summary>Even money</summary>
-  <div markdown="1">
-
-- 플레이어의 카드가 Blackjack이고 딜러의 오픈된 카드가 A일 때 선택 가능
-- 선택 시, 베팅한 금액과 동일한 금액을 승리수당으로 받고 게임 즉시 종료
-- 미 선택 시, 게임 계속 진행
-    </div>
-</details>
-
-<details style="outline: none">
-<summary>double down</summary>
-  <div markdown="1">
-
-- 카드를 한 장만 더 받는 조건으로 돈을 두 배로 걸 수 있다
-    </div>
-</details>
-
-<details style="outline: none">
-<summary>stand</summary>
-  <div markdown="1">
-
-- 카드를 더 뽑지 않고 멈추는 것
-- 카드의 합이 21이 넘지 않는 이상 언제든 멈출 수 있다
-    </div>
-</details>
-
-<details style="outline: none">
-<summary>push</summary>
-  <div markdown="1">
-
-- 플레이어와 딜러가 무승부인 경우 배팅액을 돌려받는다
-    </div>
-</details>
+- push
+  - 플레이어와 딜러가 무승부인 경우 배팅액을 돌려받는다
 
 * split과 surender는 추후 구현 예정
 
-자세한 블랙잭 기본 규칙과 위에 나열된 규칙들은 [나무위키(블랙잭 게임)](https://namu.wiki/w/%EB%B8%94%EB%9E%99%EC%9E%AD(%EC%B9%B4%EB%93%9C%EA%B2%8C%EC%9E%84))
+자세한 블랙잭 규칙들은 [나무위키(블랙잭 게임)](https://namu.wiki/w/%EB%B8%94%EB%9E%99%EC%9E%AD(%EC%B9%B4%EB%93%9C%EA%B2%8C%EC%9E%84))
 을 참고해주세요.
 
 ## 3. 구현
-### class & interface의 목록과 기능
-<details>
-<summary>class</summary>
 
-| 이름                | 기능                                         |
-|-------------------|--------------------------------------------|
-| Table             | 애플리케이션 실행 클래스                              |
-| BlackJackGame     | Game 인터페이스 구현 클래스, 블랙잭 게임 실행과 종료 구현        |
-| BlackJackRound    | 블랙잭 게임의 라운드 실행 종료, 실제적인 게임 흐름을 제어하는 클래스    |
-| BJBettingTurn     | 블랙잭 게임의 베팅 단계를 실행하는 클래스                    |
-| DealingTurn       | 카드 패를 나눠주는 딜링 단계를 실행하는 클래스                 |
-| BJPlayerTurn      | 블랙잭 게임 플레이어의 선택에 따른 게임의 흐름을 제어하는 클래스       |
-| BJDealerTurn      | 블랙잭 게임 딜러의 패를 처리하는 클래스                     |
-| EarlySettlingTurn | 이르게 게임이 완료된 경우 게임의 결과를 처리 하는 클래스           |
-| LazySettlingTurn  | DealerTurn 이후 최종적으로 게임의 결과를 처리하는 클래스       |
-| BJDealerImpl      | 블랙잭 게임의 딜러의 데이터와 행동의 정의되어있는 클래스            |
-| BJPlayerImpl      | 블랙잭 게임의 플레이어의 데이터와 행동이 정의된 클래스             |
-| HandImpl          | 게임 플레이어가가 가진 패에 대한 정보를 저장하고 처리하는 클래스       |
-| BlackJackHandImpl | 블랙잭 게임 참가자의 패에 대한 정보를 저장하고 처리하는 클래스        |
-| BJPlayerHandImpl  | 블랙잭 게임 플레이어가 가진 패에 대한 정보를 저장하고 처리하는 클래스    |
-| BJDealerHandImpl  | 블랙잭 게임 딜러가 가진 패에 대한 정보를 저장하고 처리하는 클래스      |
-| Card              | 플레잉 카드, Card에 대한 정보 저장 및 행동 정의             |
-| Deck              | Card 객체와 Deck과 관련된 행동 정의                   |
-| BJInputProcessor  | 블랙잭 게임 사용자의 입력을 받아 검증 후 입력값을 가공하여 반환하는 클래스 |
-| VirtualWallet     | 플레이어의 돈과 관뎐된 데이터를 저장 및 처리하는 클래스            |
-</details>
+### class와 interface의 목록과 기능
 
 <details>
 <summary>interface</summary>
@@ -145,25 +87,55 @@
 | Wallet                  | 플레이어의 돈과 관뎐된 추상 메서드를 정의한 인터페이스            |
 </details>
 
+<details>
+<summary>class</summary>
 
+| 이름                | 기능                                         |
+|-------------------|--------------------------------------------|
+| Table             | 애플리케이션 실행 클래스                              |
+| BlackJackGame     | Game 인터페이스 구현 클래스, 블랙잭 게임 실행과 종료 구현        |
+| BlackJackRound    | 블랙잭 게임의 라운드 실행 종료, 실제적인 게임 흐름을 제어하는 클래스    |
+| BJBettingTurn     | 블랙잭 게임의 베팅 단계를 실행하는 클래스                    |
+| DealingTurn       | 카드 패를 나눠주는 딜링 단계를 실행하는 클래스                 |
+| BJPlayerTurn      | 블랙잭 게임 플레이어의 선택에 따른 게임의 흐름을 제어하는 클래스       |
+| BJDealerTurn      | 블랙잭 게임 딜러의 패를 처리하는 클래스                     |
+| EarlySettlingTurn | 이르게 게임이 완료된 경우 게임의 결과를 처리 하는 클래스           |
+| LazySettlingTurn  | DealerTurn 이후 최종적으로 게임의 결과를 처리하는 클래스       |
+| BJDealerImpl      | 블랙잭 게임의 딜러의 데이터와 행동의 정의되어있는 클래스            |
+| BJPlayerImpl      | 블랙잭 게임의 플레이어의 데이터와 행동이 정의된 클래스             |
+| HandImpl          | 게임 플레이어가가 가진 패에 대한 정보를 저장하고 처리하는 클래스       |
+| BlackJackHandImpl | 블랙잭 게임 참가자의 패에 대한 정보를 저장하고 처리하는 클래스        |
+| BJPlayerHandImpl  | 블랙잭 게임 플레이어가 가진 패에 대한 정보를 저장하고 처리하는 클래스    |
+| BJDealerHandImpl  | 블랙잭 게임 딜러가 가진 패에 대한 정보를 저장하고 처리하는 클래스      |
+| Card              | 플레잉 카드, Card에 대한 정보 저장 및 행동 정의             |
+| Deck              | Card 객체와 Deck과 관련된 행동 정의                   |
+| BJInputProcessor  | 블랙잭 게임 사용자의 입력을 받아 검증 후 입력값을 가공하여 반환하는 클래스 |
+| VirtualWallet     | 플레이어의 돈과 관뎐된 데이터를 저장 및 처리하는 클래스            |
+</details>
+
+### 구현 과정
 애플리케이션의 전체적인 흐름입니다.
 
 <div align="center">
-<img src="img_7.png" width="50%" height="80%" align="center" alt="클래스 다이어그램">
+<img src="img/img_7.png" width="70%" height="80%" align="center" alt="클래스 다이어그램">
 <div>[그림1]</div>
 </div>
 [그림1]
+
 ### Game 인터페이스의 역할
+
 블랙잭 게임을 구현하는데 사용한 인터페이스, 클래스들은 추후 다른 게임을 구현할 때 재사용하기 위한 목적을 가지고 구현했습니다.
 따라서 게임을 실행하는 Table 클래스와 실질적으로 게임을 진행하는 인터페이스인 Round 사이에 각 게임을 실행 및 종료하는 Game 인터페이스가 
 위치해있습니다.
 
-### Round & Turn
+### Round&Turn
+
 이 게임을 구현하는데 가장 어려웠던 것 중 하나는 **게임의 흐름을 제어**하는 부분이었습니다.
 블랙잭 게임은 초기에 플레이어와 딜러가 받는 패에 따라 게임이 조기에 종료될 수도, 마지막 단계까지 거쳐 종료될 수도 있는
 게임입니다.
+
 <div align="center">
-<img src="img_11.png" width="50%" height="80%" align="center" alt="클래스 다이어그램">
+<img src="img/img_11.png" width="80%" height="80%" align="center" alt="클래스 다이어그램">
 <div>[그림2]</div>
 </div>
 [그림2]
@@ -196,8 +168,9 @@ public class Game{
 에서 힌트를 얻고, 이 프로젝트에 맞게끔 수정하여 Round와 Turn의 구조를 도입했습니다.
 
 #### 리팩토링 후
+
 <div align="center">
-<img src="img_13.png" width="50%" height="80%" align="center" alt="클래스 다이어그램">
+<img src="img/img_13.png" width="80%" height="80%" align="center" alt="클래스 다이어그램">
 <div>[그림3]</div>
 </div>
 
@@ -206,7 +179,7 @@ public class Game{
 결과 처리를 **'이른 게임결과처리'와 '늦은 게임결과처리', 두 단계로 나눌** 수 있었습니다.
 
 <div align="center">
-<img src="img_14.png" width="50%" height="80%" align="center" alt="클래스 다이어그램">
+<img src="img/img_14.png" width="80%" height="80%" align="center" alt="클래스 다이어그램">
 <div>[그림4]</div>
 </div>
 
@@ -285,12 +258,14 @@ public class BlackJackRound implements Round {
 작성했기 때문에 한 라운드가 끝날때까지 반복문으로 process()를 호출하여 게임의 단계를 진행할 수 있도록 구현했습니다.
 
 ### 추상화와 중복코드 제거
+
 중복코드를 방지하고 객체지향의 의존 역전의 법칙을 지키기 위해 클래스들을 관심사 별로 세분화하고 인터페이스로 추상화하는 과정을 거쳤습니다.
 이 과정이 두드러져보이는 객체는 바로 Player, Dealer입니다.
 
 #### 리팩토링 전
+
 <div align="center">
-<img src="img_15.png" width="40%" height="80%" align="center" alt="클래스 다이어그램">
+<img src="img/img_15.png" width="40%" height="80%" align="center" alt="클래스 다이어그램">
 <div>[그림5]</div>
 </div>
 
@@ -301,6 +276,7 @@ Role이라는 추상 클래스를 상속받아 플레이어와 딜러를 구현�
 3. Role은 상속 및 확장이 목표가 아니라, **구현 클래스의 행위를 보장**하는 것이 목표(인터페이스 사용 필요)
 
 #### 리팩토링 후
+
 위의 문제점을 해결하기 위해 먼저 **도메인의 핵심 개념을 재파악**한 후 인터페이스를 생성하고 **요구 조건들을 재배치**했습니다.
 (1, 3번 문제 해결)
 
@@ -312,7 +288,7 @@ Role이라는 추상 클래스를 상속받아 플레이어와 딜러를 구현�
 
 
 <div align="center">
-<img src="img_17.png" width="50%" height="80%" align="center" alt="클래스 다이어그램">
+<img src="img/img_17.png" width="60%" height="80%" align="center" alt="클래스 다이어그램">
 <div>[그림6]</div>
 </div>
 
@@ -323,12 +299,12 @@ Role이라는 추상 클래스를 상속받아 플레이어와 딜러를 구현�
 아래는 리팩토링 후의 결과물입니다.
 
 <div align="center">
-<img src="img_9.png" width="40%" height="80%" align="center" alt="클래스 다이어그램">
+<img src="img/img_9.png" width="60%" height="80%" align="center" alt="클래스 다이어그램">
 <div>[그림7]</div>
 </div>
 
 <div align="center">
-<img src="img_10.png" width="50%" height="80%" align="center" alt="클래스 다이어그램">
+<img src="img/img_10.png" width="70%" height="80%" align="center" alt="클래스 다이어그램">
 <div>[그림8]</div>
 </div>
 

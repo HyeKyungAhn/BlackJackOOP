@@ -3,12 +3,12 @@ package game.blackjack;
 import game.InputProcessor;
 import viewer.Viewer;
 
-public class BettingTurnImpl implements BettingTurn {
+public class BJBettingTurn implements BettingTurn {
     private InputProcessor inputProcessor;
 
-    protected BettingTurnImpl(){}
+    protected BJBettingTurn(){}
 
-    protected BettingTurnImpl(InputProcessor inputProcessor){
+    protected BJBettingTurn(InputProcessor inputProcessor){
         this.inputProcessor = inputProcessor;
     }
 

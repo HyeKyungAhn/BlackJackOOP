@@ -48,7 +48,7 @@ public class BlackJackRound implements Round {
     }
 
     private void initTurns() {
-        bettingTurn = new BettingTurnImpl(inputProcessor);
+        bettingTurn = new BJBettingTurn(inputProcessor);
         dealingTurn = new BJDealingTurn(deck);
         playerTurn = new BJPlayerTurn(deck, inputProcessor, dealer);
         dealerTurn = new BJDealerTurn(dealer, deck);

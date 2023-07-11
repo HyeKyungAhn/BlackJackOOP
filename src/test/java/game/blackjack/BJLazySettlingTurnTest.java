@@ -11,10 +11,14 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.*;
 
 class BJLazySettlingTurnTest {
-    private final TurnWithPlayerAndDealer lazySettlingTurn;
+    private TurnWithPlayerAndDealer lazySettlingTurn;
 
     BJLazySettlingTurnTest(){
         lazySettlingTurn = new BJLazySettlingTurn();
+    }
+
+    void initSettlingTurn(BJDealer dealer){
+        lazySettlingTurn = new BJLazySettlingTurn(dealer);
     }
 
     @Test
@@ -36,11 +40,14 @@ class BJLazySettlingTurnTest {
         BJDealerHand dealerHand = new BJDealerHandImpl();
         BJDealer dealer = new BJDealerImpl(dealerHand);
         HandForTest.getBlackJackHand(dealer);
+
+        initSettlingTurn(dealer);
+
         dealerHand.openHiddenCard();
         dealerHand.count();
 
         //WHEN
-        lazySettlingTurn.nextTurn(player, dealer);
+        lazySettlingTurn.nextTurn(player);
 
         long actualPlayerBalance = player.getWallet().getBalance();
 
@@ -68,11 +75,13 @@ class BJLazySettlingTurnTest {
         BJDealer dealer = new BJDealerImpl(dealerHand);
         HandForTest.getBlackJackHand(dealer);
 
+        initSettlingTurn(dealer);
+
         dealerHand.openHiddenCard();
         dealerHand.count();
 
         //WHEN
-        lazySettlingTurn.nextTurn(player, dealer);
+        lazySettlingTurn.nextTurn(player);
 
         long actualPlayerBalance = player.getWallet().getBalance();
 
@@ -101,11 +110,13 @@ class BJLazySettlingTurnTest {
         BJDealer dealer = new BJDealerImpl(dealerHand);
         HandForTest.getBlackJackHand(dealer);
 
+        initSettlingTurn(dealer);
+
         dealerHand.openHiddenCard();
         dealerHand.count();
 
         //WHEN
-        lazySettlingTurn.nextTurn(player, dealer);
+        lazySettlingTurn.nextTurn(player);
 
         long actualPlayerBalance = player.getWallet().getBalance();
 
@@ -133,11 +144,13 @@ class BJLazySettlingTurnTest {
         BJDealer dealer = new BJDealerImpl(dealerHand);
         HandForTest.get20CountHand(dealer);
 
+        initSettlingTurn(dealer);
+
         dealerHand.openHiddenCard();
         dealerHand.count();
 
         //WHEN
-        lazySettlingTurn.nextTurn(player, dealer);
+        lazySettlingTurn.nextTurn(player);
 
         long actualPlayerBalance = player.getWallet().getBalance();
 
@@ -165,11 +178,13 @@ class BJLazySettlingTurnTest {
         BJDealer dealer = new BJDealerImpl(dealerHand);
         HandForTest.get17CountHand(dealer);
 
+        initSettlingTurn(dealer);
+
         dealerHand.openHiddenCard();
         dealerHand.count();
 
         //WHEN
-        lazySettlingTurn.nextTurn(player, dealer);
+        lazySettlingTurn.nextTurn(player);
 
         long actualPlayerBalance = player.getWallet().getBalance();
 
@@ -198,11 +213,13 @@ class BJLazySettlingTurnTest {
         BJDealer dealer = new BJDealerImpl(dealerHand);
         HandForTest.get17CountHand(dealer);
 
+        initSettlingTurn(dealer);
+
         dealerHand.openHiddenCard();
         dealerHand.count();
 
         //WHEN
-        lazySettlingTurn.nextTurn(player, dealer);
+        lazySettlingTurn.nextTurn(player);
 
         long actualPlayerBalance = player.getWallet().getBalance();
 
@@ -230,11 +247,13 @@ class BJLazySettlingTurnTest {
         BJDealer dealer = new BJDealerImpl(dealerHand);
         HandForTest.get20CountHand(dealer);
 
+        initSettlingTurn(dealer);
+
         dealerHand.openHiddenCard();
         dealerHand.count();
 
         //WHEN
-        lazySettlingTurn.nextTurn(player, dealer);
+        lazySettlingTurn.nextTurn(player);
 
         long actualPlayerBalance = player.getWallet().getBalance();
 
@@ -263,11 +282,13 @@ class BJLazySettlingTurnTest {
         BJDealer dealer = new BJDealerImpl(dealerHand);
         HandForTest.get20CountHand(dealer);
 
+        initSettlingTurn(dealer);
+
         dealerHand.openHiddenCard();
         dealerHand.count();
 
         //WHEN
-        lazySettlingTurn.nextTurn(player, dealer);
+        lazySettlingTurn.nextTurn(player);
 
         long actualPlayerBalance = player.getWallet().getBalance();
 
@@ -295,11 +316,13 @@ class BJLazySettlingTurnTest {
         BJDealer dealer = new BJDealerImpl(dealerHand);
         HandForTest.get20CountHand(dealer);
 
+        initSettlingTurn(dealer);
+
         dealerHand.openHiddenCard();
         dealerHand.count();
 
         //WHEN
-        lazySettlingTurn.nextTurn(player, dealer);
+        lazySettlingTurn.nextTurn(player);
 
         long actualPlayerBalance = player.getWallet().getBalance();
 
@@ -328,11 +351,13 @@ class BJLazySettlingTurnTest {
         BJDealer dealer = new BJDealerImpl(dealerHand);
         HandForTest.get20CountHand(dealer);
 
+        initSettlingTurn(dealer);
+
         dealerHand.openHiddenCard();
         dealerHand.count();
 
         //WHEN
-        lazySettlingTurn.nextTurn(player, dealer);
+        lazySettlingTurn.nextTurn(player);
 
         long actualPlayerBalance = player.getWallet().getBalance();
 

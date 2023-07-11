@@ -9,10 +9,10 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.*;
 
 class BJEarlySettlingTurnTest extends IOTest {
-    private final TurnWithPlayerAndDealer earlySettlingTurn;
+    private TurnWithPlayerAndDealer earlySettlingTurn;
 
-    BJEarlySettlingTurnTest(){
-        earlySettlingTurn = new BJEarlySettlingTurn();
+    void initSettlingTurn(BJDealer dealer){
+        earlySettlingTurn = new BJEarlySettlingTurn(dealer);
     }
 
     @Test
@@ -32,12 +32,14 @@ class BJEarlySettlingTurnTest extends IOTest {
         BJPlayer player = new BJPlayerImpl(playerHand, new VirtualWallet(playerBalance));
         BJDealer dealer = new BJDealerImpl(dealerHand);
 
+        initSettlingTurn(dealer);
+
         player.setBettingAmount(playerBettingAmount);
 
         playerHand.count();
 
         //WHEN
-        earlySettlingTurn.nextTurn(player, dealer);
+        earlySettlingTurn.nextTurn(player);
 
         long actualPlayerBalance = player.getWallet().getBalance();
 
@@ -62,6 +64,8 @@ class BJEarlySettlingTurnTest extends IOTest {
         BJPlayer player = new BJPlayerImpl(playerHand, new VirtualWallet(oldPlayerBalance));
         BJDealer dealer = new BJDealerImpl(dealerHand);
 
+        initSettlingTurn(dealer);
+
         player.setBettingAmount(playerBettingAmount);
 
         playerHand.setInsured(true);
@@ -69,7 +73,7 @@ class BJEarlySettlingTurnTest extends IOTest {
         playerHand.count();
 
         //WHEN
-        earlySettlingTurn.nextTurn(player, dealer);
+        earlySettlingTurn.nextTurn(player);
         long actualPlayerBalance = player.getWallet().getBalance();
 
         //THEN
@@ -92,6 +96,8 @@ class BJEarlySettlingTurnTest extends IOTest {
         BJPlayer player = new BJPlayerImpl(playerHand, new VirtualWallet(oldPlayerBalance));
         BJDealer dealer = new BJDealerImpl(dealerHand);
 
+        initSettlingTurn(dealer);
+
         player.setBettingAmount(playerBettingAmount);
 
         playerHand.setInsured(true);
@@ -99,7 +105,7 @@ class BJEarlySettlingTurnTest extends IOTest {
         playerHand.count();
 
         //WHEN
-        earlySettlingTurn.nextTurn(player, dealer);
+        earlySettlingTurn.nextTurn(player);
         long actualPlayerBalance = player.getWallet().getBalance();
 
         //THEN
@@ -122,12 +128,14 @@ class BJEarlySettlingTurnTest extends IOTest {
         BJPlayer player = new BJPlayerImpl(playerHand, new VirtualWallet(oldPlayerBalance));
         BJDealer dealer = new BJDealerImpl(dealerHand);
 
+        initSettlingTurn(dealer);
+
         player.setBettingAmount(playerBettingAmount);
 
         playerHand.count();
 
         //WHEN
-        earlySettlingTurn.nextTurn(player, dealer);
+        earlySettlingTurn.nextTurn(player);
         long actualPlayerBalance = player.getWallet().getBalance();
 
         //THEN
@@ -151,6 +159,8 @@ class BJEarlySettlingTurnTest extends IOTest {
         BJPlayer player = new BJPlayerImpl(playerHand, new VirtualWallet(oldPlayerBalance));
         BJDealer dealer = new BJDealerImpl(dealerHand);
 
+        initSettlingTurn(dealer);
+
         player.setBettingAmount(playerBettingAmount);
         playerHand.setInsured(true);
 
@@ -160,7 +170,7 @@ class BJEarlySettlingTurnTest extends IOTest {
         dealerHand.count();
 
         //WHEN
-        earlySettlingTurn.nextTurn(player, dealer);
+        earlySettlingTurn.nextTurn(player);
         long actualPlayerBalance = player.getWallet().getBalance();
 
         //THEN
@@ -184,6 +194,8 @@ class BJEarlySettlingTurnTest extends IOTest {
         BJPlayer player = new BJPlayerImpl(playerHand, new VirtualWallet(oldPlayerBalance));
         BJDealer dealer = new BJDealerImpl(dealerHand);
 
+        initSettlingTurn(dealer);
+
         player.setBettingAmount(playerBettingAmount);
 
         playerHand.count();
@@ -192,7 +204,7 @@ class BJEarlySettlingTurnTest extends IOTest {
         dealerHand.count();
 
         //WHEN
-        earlySettlingTurn.nextTurn(player, dealer);
+        earlySettlingTurn.nextTurn(player);
         long actualPlayerBalance = player.getWallet().getBalance();
 
         //THEN

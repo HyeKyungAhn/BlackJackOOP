@@ -26,12 +26,12 @@ class BJPlayerTurnTest{
     @Mock
     private InputProcessor inputProcessor;
 
-    private void initPlayerTurn(Deck deck) {
-        playerTurn = new BJPlayerTurn(deck, inputProcessor);
+    private void initPlayerTurn(Deck deck, BJDealer dealer) {
+        playerTurn = new BJPlayerTurn(deck, inputProcessor, dealer);
     }
 
-    private void initPlayerTurn() {
-        playerTurn = new BJPlayerTurn(new Deck(), inputProcessor);
+    private void initPlayerTurn(BJDealer dealer) {
+        playerTurn = new BJPlayerTurn(new Deck(), inputProcessor, dealer);
     }
 
     @Test
@@ -41,18 +41,20 @@ class BJPlayerTurnTest{
         long playerBalance = 1000L;
 
         when(inputProcessor.getBooleanAnswer()).thenReturn(true);
-        initPlayerTurn();
-
-        BJPlayerHand playerHand = new BJPlayerHandImpl();
-        BJPlayer player = new BJPlayerImpl(playerHand, new VirtualWallet(playerBalance));
-        HandForTest.getBlackJackHand(player);
 
         BJDealerHand dealerHand = new BJDealerHandImpl();
         BJDealer dealer = new BJDealerImpl(dealerHand);
         HandForTest.getDealerHandWithA(dealer);
 
+        initPlayerTurn(dealer);
+
+        BJPlayerHand playerHand = new BJPlayerHandImpl();
+        BJPlayer player = new BJPlayerImpl(playerHand, new VirtualWallet(playerBalance));
+        HandForTest.getBlackJackHand(player);
+
+
         //WHEN
-        NextTurnStatus nextTurn = playerTurn.nextTurn(player, dealer);
+        NextTurnStatus nextTurn = playerTurn.nextTurn(player);
 
         //THEN
         assertThat(dealerHand.hasACard()).isTrue();
@@ -68,18 +70,20 @@ class BJPlayerTurnTest{
         long playerBalance = 1000L;
 
         when(inputProcessor.getBooleanAnswer()).thenReturn(false);
-        initPlayerTurn();
-
-        BJPlayerHand playerHand = new BJPlayerHandImpl();
-        BJPlayer player = new BJPlayerImpl(playerHand, new VirtualWallet(playerBalance));
-        HandForTest.getBlackJackHand(player);
 
         BJDealerHand dealerHand = new BJDealerHandImpl();
         BJDealer dealer = new BJDealerImpl(dealerHand);
         HandForTest.getDealerHandWithA(dealer);
 
+        initPlayerTurn(dealer);
+
+        BJPlayerHand playerHand = new BJPlayerHandImpl();
+        BJPlayer player = new BJPlayerImpl(playerHand, new VirtualWallet(playerBalance));
+        HandForTest.getBlackJackHand(player);
+
+
         //WHEN
-        NextTurnStatus nextTurn = playerTurn.nextTurn(player, dealer);
+        NextTurnStatus nextTurn = playerTurn.nextTurn(player);
 
         //THEN
         assertThat(playerHand.isBlackJack()).isTrue();
@@ -98,19 +102,21 @@ class BJPlayerTurnTest{
         when(inputProcessor.getBooleanAnswer()).thenReturn(true).thenReturn(true); // 인슈어런스 선택
 
         when(deck.giveOneCard()).thenReturn(new Card("Spade", "K"));
-        initPlayerTurn(deck);
+
+        BJDealerHand dealerHand = new BJDealerHandImpl();
+        BJDealer dealer = new BJDealerImpl(dealerHand);
+        HandForTest.getDealerHandWithA(dealer);
+
+        initPlayerTurn(deck, dealer);
 
         BJPlayerHand playerHand = new BJPlayerHandImpl();
         BJPlayer player = new BJPlayerImpl(playerHand, new VirtualWallet(playerBalance));
         HandForTest.get20CountHand(player);
         player.setBettingAmount(bettingMoney);
 
-        BJDealerHand dealerHand = new BJDealerHandImpl();
-        BJDealer dealer = new BJDealerImpl(dealerHand);
-        HandForTest.getDealerHandWithA(dealer);
 
         //WHEN
-        playerTurn.nextTurn(player, dealer);
+        playerTurn.nextTurn(player);
 
         //THEN
         assertThat(playerHand.isBlackJack()).isFalse();
@@ -129,19 +135,21 @@ class BJPlayerTurnTest{
         when(inputProcessor.getBooleanAnswer()).thenReturn(true).thenReturn(true); // 인슈어런스 선택
 
         when(deck.giveOneCard()).thenReturn(new Card("Spade", "K"));
-        initPlayerTurn(deck);
+
+        BJDealerHand dealerHand = new BJDealerHandImpl();
+        BJDealer dealer = new BJDealerImpl(dealerHand);
+        HandForTest.getDealerHandWithA(dealer);
+
+        initPlayerTurn(deck, dealer);
 
         BJPlayerHand playerHand = new BJPlayerHandImpl();
         BJPlayer player = new BJPlayerImpl(playerHand, new VirtualWallet(playerBalance));
         HandForTest.get20CountHand(player);
         player.setBettingAmount(bettingMoney);
 
-        BJDealerHand dealerHand = new BJDealerHandImpl();
-        BJDealer dealer = new BJDealerImpl(dealerHand);
-        HandForTest.getDealerHandWithA(dealer);
 
         //WHEN
-        playerTurn.nextTurn(player, dealer);
+        playerTurn.nextTurn(player);
 
         //THEN
         assertThat(playerHand.isBlackJack()).isFalse();
@@ -159,18 +167,20 @@ class BJPlayerTurnTest{
         when(inputProcessor.getBooleanAnswer()).thenReturn(false).thenReturn(true); // 인슈어런스 선택
 
         when(deck.giveOneCard()).thenReturn(new Card("Spade", "K"));
-        initPlayerTurn(deck);
-
-        BJPlayerHand playerHand = new BJPlayerHandImpl();
-        BJPlayer player = new BJPlayerImpl(playerHand, new VirtualWallet(playerBalance));
-        HandForTest.get20CountHand(player);
 
         BJDealerHand dealerHand = new BJDealerHandImpl();
         BJDealer dealer = new BJDealerImpl(dealerHand);
         HandForTest.getDealerHandWithA(dealer);
 
+        initPlayerTurn(deck, dealer);
+
+        BJPlayerHand playerHand = new BJPlayerHandImpl();
+        BJPlayer player = new BJPlayerImpl(playerHand, new VirtualWallet(playerBalance));
+        HandForTest.get20CountHand(player);
+
+
         //WHEN
-        playerTurn.nextTurn(player, dealer);
+        playerTurn.nextTurn(player);
 
         //THEN
         assertThat(playerHand.isBlackJack()).isFalse();
@@ -185,18 +195,18 @@ class BJPlayerTurnTest{
         //GIVEN
         long playerBalance = 1000L;
 
-        initPlayerTurn();
+        BJDealerHand dealerHand = new BJDealerHandImpl();
+        BJDealer dealer = new BJDealerImpl(dealerHand);
+        HandForTest.getDealerHandWithNotOpenedACard(dealer);
+
+        initPlayerTurn(dealer);
 
         BJPlayerHand playerHand = new BJPlayerHandImpl();
         BJPlayer player = new BJPlayerImpl(playerHand, new VirtualWallet(playerBalance));
         HandForTest.getBlackJackHand(player);
 
-        BJDealerHand dealerHand = new BJDealerHandImpl();
-        BJDealer dealer = new BJDealerImpl(dealerHand);
-        HandForTest.getDealerHandWithNotOpenedACard(dealer);
-
         //WHEN
-        NextTurnStatus nextTurn = playerTurn.nextTurn(player, dealer);
+        NextTurnStatus nextTurn = playerTurn.nextTurn(player);
 
         //THEN
         assertThat(playerHand.isBlackJack()).as("playerBlackjack").isTrue();
@@ -214,18 +224,20 @@ class BJPlayerTurnTest{
 
         when(inputProcessor.getBooleanAnswer()).thenReturn(true);
         when(deck.giveOneCard()).thenReturn(new Card("Spade", "K"));
-        initPlayerTurn(deck);
-
-        BJPlayerHand playerHand = new BJPlayerHandImpl();
-        BJPlayer player = new BJPlayerImpl(playerHand, new VirtualWallet(playerBalance));
-        HandForTest.get20CountHand(player);
 
         BJDealerHand dealerHand = new BJDealerHandImpl();
         BJDealer dealer = new BJDealerImpl(dealerHand);
         HandForTest.getDealerHandWithNotOpenedACard(dealer);
 
+        initPlayerTurn(deck, dealer);
+
+        BJPlayerHand playerHand = new BJPlayerHandImpl();
+        BJPlayer player = new BJPlayerImpl(playerHand, new VirtualWallet(playerBalance));
+        HandForTest.get20CountHand(player);
+
+
         //WHEN
-        NextTurnStatus nextTurn = playerTurn.nextTurn(player, dealer);
+        NextTurnStatus nextTurn = playerTurn.nextTurn(player);
 
         //THEN
         assertThat(playerHand.isBlackJack()).as("playerBlackjack").isFalse();
@@ -238,23 +250,26 @@ class BJPlayerTurnTest{
 
     @Test
     @DisplayName("더블다운 & not bust 테스트")
-    void testPlayerWhoDoubldDownAndIsNotBusted(){
+    void testPlayerWhoDoubleDownAndIsNotBusted(@Mock Deck deck){
         //GIVEN
         long playerBalance = 1000L;
 
         when(inputProcessor.getBooleanAnswer()).thenReturn(true);
-        initPlayerTurn();
 
-        BJPlayerHand playerHand = new BJPlayerHandImpl();
-        BJPlayer player = new BJPlayerImpl(playerHand, new VirtualWallet(playerBalance));
-        HandForTest.get10CountHand(player);
+        when(deck.giveOneCard()).thenReturn(new Card("Spade", "5"));
 
         BJDealerHand dealerHand = new BJDealerHandImpl();
         BJDealer dealer = new BJDealerImpl(dealerHand);
         HandForTest.getDealerHandWithNotOpenedACard(dealer);
 
+        initPlayerTurn(deck, dealer);
+
+        BJPlayerHand playerHand = new BJPlayerHandImpl();
+        BJPlayer player = new BJPlayerImpl(playerHand, new VirtualWallet(playerBalance));
+        HandForTest.get10CountHand(player);
+
         //WHEN
-        NextTurnStatus nextTurn = playerTurn.nextTurn(player, dealer);
+        NextTurnStatus nextTurn = playerTurn.nextTurn(player);
 
         //THEN
         assertThat(playerHand.isBlackJack()).as("playerBlackjack").isFalse();
@@ -265,23 +280,26 @@ class BJPlayerTurnTest{
 
     @Test
     @DisplayName("추가 hit 이후 21 이하의 점수일 때 DealerTurn 으로 넘어가는지 테스트")
-    void testNextTurnStatusWhenPlayerHitAnotherHitAndGetCountUnder21(){
+    void testNextTurnStatusWhenPlayerHitAnotherHitAndGetCountUnder21(@Mock Deck deck){
         //GIVEN
         long oldBalance = 1000L;
 
         when(inputProcessor.getBooleanAnswer()).thenReturn(true);
-        initPlayerTurn();
 
-        BJPlayerHand playerHand = new BJPlayerHandImpl();
-        BJPlayer player = new BJPlayerImpl(playerHand, new VirtualWallet(oldBalance));
-        HandForTest.get10CountHand(player);
+        when(deck.giveOneCard()).thenReturn(new Card("Spade", "5"));
 
         BJDealerHand dealerHand = new BJDealerHandImpl();
         BJDealer dealer = new BJDealerImpl(dealerHand);
         HandForTest.getDealerHandWithNotOpenedACard(dealer);
 
+        initPlayerTurn(deck, dealer);
+
+        BJPlayerHand playerHand = new BJPlayerHandImpl();
+        BJPlayer player = new BJPlayerImpl(playerHand, new VirtualWallet(oldBalance));
+        HandForTest.get10CountHand(player);
+
         //WHEN
-        NextTurnStatus nextTurn = playerTurn.nextTurn(player, dealer);
+        NextTurnStatus nextTurn = playerTurn.nextTurn(player);
 
         //THEN
         assertThat(playerHand.isBlackJack()).as("playerBlackjack").isFalse();
@@ -299,18 +317,19 @@ class BJPlayerTurnTest{
 
         when(inputProcessor.getBooleanAnswer()).thenReturn(true);
         when(deck.giveOneCard()).thenReturn(new Card("Spade", "K"));
-        initPlayerTurn(deck);
-
-        BJPlayerHand playerHand = new BJPlayerHandImpl();
-        BJPlayer player = new BJPlayerImpl(playerHand, new VirtualWallet(oldBalance));
-        HandForTest.get20CountHand(player);
 
         BJDealerHand dealerHand = new BJDealerHandImpl();
         BJDealer dealer = new BJDealerImpl(dealerHand);
         HandForTest.getDealerHandWithNotOpenedACard(dealer);
 
+        initPlayerTurn(deck, dealer);
+
+        BJPlayerHand playerHand = new BJPlayerHandImpl();
+        BJPlayer player = new BJPlayerImpl(playerHand, new VirtualWallet(oldBalance));
+        HandForTest.get20CountHand(player);
+
         //WHEN
-        NextTurnStatus nextTurn = playerTurn.nextTurn(player, dealer);
+        NextTurnStatus nextTurn = playerTurn.nextTurn(player);
 
         //THEN
         assertThat(playerHand.isEvenMoney()).as("evenMoney").isFalse();
@@ -327,18 +346,20 @@ class BJPlayerTurnTest{
 
         when(inputProcessor.getBooleanAnswer()).thenReturn(false).thenReturn(true);
         when(deck.giveOneCard()).thenReturn(new Card("Clover", "A"));
-        initPlayerTurn(deck);
-
-        BJPlayerHand playerHand = new BJPlayerHandImpl();
-        BJPlayer player = new BJPlayerImpl(playerHand, new VirtualWallet(oldBalance));
-        HandForTest.get20CountHand(player);
 
         BJDealerHand dealerHand = new BJDealerHandImpl();
         BJDealer dealer = new BJDealerImpl(dealerHand);
         HandForTest.getDealerHandWithNotOpenedACard(dealer);
 
+        initPlayerTurn(deck, dealer);
+
+        BJPlayerHand playerHand = new BJPlayerHandImpl();
+        BJPlayer player = new BJPlayerImpl(playerHand, new VirtualWallet(oldBalance));
+        HandForTest.get20CountHand(player);
+
+
         //WHEN
-        NextTurnStatus nextTurn = playerTurn.nextTurn(player, dealer);
+        NextTurnStatus nextTurn = playerTurn.nextTurn(player);
 
         //THEN
         assertThat(playerHand.isBlackJack()).as("playerBlackjack").isTrue();

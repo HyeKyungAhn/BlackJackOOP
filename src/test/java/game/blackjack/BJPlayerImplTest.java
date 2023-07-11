@@ -145,6 +145,10 @@ class BJPlayerImplTest extends IOTest{
 
         when(inputProcessor.getLongValue()).thenReturn(bettingAmount);
 
+        when(wallet.subtract(anyLong()))
+                .thenReturn(true)
+                .thenReturn(true);
+
         when(wallet.getBalance())
                 .thenReturn(playerBalance)
                 .thenReturn(playerBalance - bettingAmount);

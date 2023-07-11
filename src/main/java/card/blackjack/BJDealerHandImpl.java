@@ -23,10 +23,10 @@ public class BJDealerHandImpl extends BlackJackHandImpl implements BJDealerHand 
     public void openHiddenCard(){
         List<Card> cards = super.cards;
 
-        cards.remove(getImitationCard());
-        cards.add(hiddenCard);
-
-        hiddenCard = null;
+        if(cards.remove(getImitationCard())){
+            cards.add(hiddenCard);
+            hiddenCard = null;
+        }
     }
 
     @Override

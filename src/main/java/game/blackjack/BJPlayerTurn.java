@@ -15,14 +15,16 @@ import viewer.ViewerStatus;
  * **/
 
 public class BJPlayerTurn implements TurnWithPlayerAndDealer {
-    Deck deck;
-    InputProcessor inputProcessor;
+    private Deck deck;
+    private InputProcessor inputProcessor;
+    private BJDealer dealer;
 
     BJPlayerTurn(){}
 
     BJPlayerTurn(Deck deck, InputProcessor inputProcessor){
         this.deck = deck;
         this.inputProcessor = inputProcessor;
+        this.dealer = dealer;
     }
 
     @Override

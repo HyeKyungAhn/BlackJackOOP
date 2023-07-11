@@ -1,7 +1,7 @@
 package fund;
 
 public class VirtualWallet implements Wallet{
-    long balance;
+    private long balance;
 
     public VirtualWallet(){}
 

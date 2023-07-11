@@ -5,6 +5,5 @@ public interface BJPlayerHand extends BlackJackHand {
     void setInsured(boolean insured);
     boolean isEvenMoney();
     void setEvenMoney(boolean evenMoney);
-    boolean isFirstTurnBJ();
-    void setFirstTurnBJ(boolean firstTurnBJ);
+
 }

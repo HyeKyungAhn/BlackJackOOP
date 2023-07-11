@@ -3,7 +3,6 @@ package card.blackjack;
 public class BJPlayerHandImpl extends BlackJackHandImpl implements BJPlayerHand {
     protected boolean insured = false;
     protected boolean evenMoney;
-    protected boolean firstTurnBJ;
     protected boolean blackJack;
 
     @Override
@@ -27,22 +26,11 @@ public class BJPlayerHandImpl extends BlackJackHandImpl implements BJPlayerHand 
     }
 
     @Override
-    public boolean isFirstTurnBJ() {
-        return firstTurnBJ;
-    }
-
-    @Override
-    public void setFirstTurnBJ(boolean firstTurnBJ) {
-        this.firstTurnBJ = firstTurnBJ;
-    }
-
-    @Override
     public void initValues(){
         super.initValues();
         count = 0;
         insured = false;
         evenMoney = false;
-        firstTurnBJ = false;
         blackJack = false;
     }
 }

@@ -7,7 +7,7 @@ import viewer.ViewerStatus;
 import java.util.Scanner;
 
 public class BJInputProcessor implements InputProcessor {
-    Scanner scanner;
+    private Scanner scanner;
 
     BJInputProcessor(){}
 

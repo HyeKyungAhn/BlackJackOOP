@@ -9,26 +9,24 @@ import viewer.ViewerStatus;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 public class BlackJackRound implements Round {
-    BJPlayer player; //player
-    BJDealer dealer; //dealer
-    List<Playable> playerAndDealer; //player + dealer
-    Deck deck; //추상화 필요
+    private BJPlayer player; //player
+    private BJDealer dealer; //dealer
+    private List<Playable> playerAndDealer; //player + dealer
+    private Deck deck;
 
-    Scanner scanner;
+    private BettingTurn bettingTurn;
+    private DealingTurn dealingTurn;
+    private TurnWithPlayerAndDealer playerTurn;
+    private DealerTurn dealerTurn;
+    private TurnWithPlayerAndDealer lazySettlingTurn;
+    private TurnWithPlayerAndDealer earlySettlingTurn;
 
-    BettingTurn bettingTurn;
-    DealingTurn dealingTurn;
-    TurnWithPlayerAndDealer playerTurn;
-    DealerTurn dealerTurn;
-    TurnWithPlayerAndDealer lazySettlingTurn;
-    TurnWithPlayerAndDealer earlySettlingTurn;
+    private InputProcessor inputProcessor;
 
-    InputProcessor inputProcessor;
+    private NextTurnStatus nextTurn = NextTurnStatus.INITIAL;
 
-    NextTurnStatus nextTurn = NextTurnStatus.INITIAL;
     boolean isFinal = false;
 
     BlackJackRound(){}
@@ -102,7 +100,6 @@ public class BlackJackRound implements Round {
                 nextTurn = lazySettlingTurn.nextTurn(player);
             } break;
         }
-
     }
 
 }

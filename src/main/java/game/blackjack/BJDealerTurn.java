@@ -10,8 +10,8 @@ import viewer.ViewerStatus;
 import java.util.List;
 
 public class BJDealerTurn implements DealerTurn {
-    BJDealer dealer;
-    Deck deck;
+    private BJDealer dealer;
+    private Deck deck;
 
     BJDealerTurn(){}
 

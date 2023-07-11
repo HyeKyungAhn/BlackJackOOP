@@ -8,7 +8,7 @@ import viewer.ViewerStatus;
 import java.util.List;
 
 public class BJDealingTurn implements DealingTurn {
-    Deck deck;
+    private Deck deck;
 
     BJDealingTurn(){}
 

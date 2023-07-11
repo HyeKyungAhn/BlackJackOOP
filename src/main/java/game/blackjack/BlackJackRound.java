@@ -52,8 +52,8 @@ public class BlackJackRound implements Round {
         dealingTurn = new BJDealingTurn(deck);
         playerTurn = new BJPlayerTurn(deck, inputProcessor, dealer);
         dealerTurn = new BJDealerTurn(dealer, deck);
-        lazySettlingTurn = new BJLazySettlingTurn();
-        earlySettlingTurn = new BJEarlySettlingTurn();
+        lazySettlingTurn = new BJLazySettlingTurn(dealer);
+        earlySettlingTurn = new BJEarlySettlingTurn(dealer);
     }
 
     @Override

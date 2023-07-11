@@ -6,5 +6,5 @@ public interface Wallet {
 
     void getWinning(long amount);
 
-    long subtract(long amount);
+    boolean subtract(long amount) throws IllegalStateException;
 }

@@ -20,12 +20,12 @@ public class VirtualWallet implements Wallet{
     }
 
     @Override
-    public long subtract(long amount) {
+    public boolean subtract(long amount) throws IllegalStateException{
         if (amount > balance) {
-            throw new IllegalStateException("지갑에서 잔액보다 더 많은 금액 출금 시도");
+            return false;
         }
         balance -= amount;
-        return amount;
+        return true;
     }
 
 }

@@ -48,18 +48,17 @@ public class BJPlayerImpl extends PlayableImpl implements BJPlayer, Gambler {
     public boolean insure() {
         long insurance = bettingAmount/2;
 
-        if(insurance > wallet.getBalance()){
+        if(!wallet.subtract(insurance)) {
             return false;
         }
 
-        wallet.subtract(insurance);
         ((BJPlayerHand)hand).setInsured(true);
         return true;
     }
 
     @Override
     public boolean isBroke() {
-        return wallet.getBalance() <= 0;
+        return wallet.getBalance() < BettingTurn.BET_MIN;
     }
 
     @Override

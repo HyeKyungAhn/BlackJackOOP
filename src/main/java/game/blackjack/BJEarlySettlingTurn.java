@@ -22,11 +22,11 @@ public class BJEarlySettlingTurn implements TurnWithPlayerAndDealer {
 
         System.out.println("----------------------------------------------");
 
-        if(playerHand.isBlackJack()){ //even money
+        if(playerHand.isEvenMoney()){
             givePayout(player, 2.0);
 
             Viewer.printInfo(ViewerStatus.PLAYER_WIN);
-            Viewer.printInfo(ViewerStatus.DOUBLE_PAYOUT);
+            Viewer.printInfo(ViewerStatus.ONE_PAYOUT);
         }
 
         if(playerHand.isBusted()){
@@ -34,6 +34,7 @@ public class BJEarlySettlingTurn implements TurnWithPlayerAndDealer {
 
             if(playerHand.isInsured() && dealerHand.countAndVerifyBJ()){
                 givePayout(player, 1.5);
+                Viewer.printInfo(ViewerStatus.DEALER_BLACKJACK);
                 Viewer.printInfo(ViewerStatus.GIVE_INSURANCE_WHEN_LOSE);
             } else {
                 Viewer.printInfo(ViewerStatus.LOSE_BETTING_AMOUNT);
@@ -44,14 +45,27 @@ public class BJEarlySettlingTurn implements TurnWithPlayerAndDealer {
             Viewer.printInfo(ViewerStatus.DEALER_BUSTED);
             Viewer.printInfo(ViewerStatus.PLAYER_WIN);
 
-            givePayout(player, 2.0);
+            if(playerHand.isBlackJack()){
+                Viewer.printInfo(ViewerStatus.PLAYER_BLACKJACK);
 
-            if(playerHand.isInsured()){
-                Viewer.printInfo(ViewerStatus.INCLUDE_INSURANCE);
-                Viewer.printInfo(ViewerStatus.DOUBLE_PAYOUT);
+                givePayout(player, 2.5);
+
+                if(playerHand.isInsured()){
+                    Viewer.printInfo(ViewerStatus.LOOSE_INSURANCE);
+                }
+
+                Viewer.printInfo(ViewerStatus.ONE_AND_A_HALF_PAYOUT);
+            } else {
+                givePayout(player, 2.0);
+
+                if(playerHand.isInsured()){
+                    Viewer.printInfo(ViewerStatus.LOOSE_INSURANCE);
+                }
+
+                Viewer.printInfo(ViewerStatus.ONE_PAYOUT);
             }
 
-            Viewer.printInfo(ViewerStatus.DOUBLE_PAYOUT);
+
         }
 
         System.out.println("----------------------------------------------");

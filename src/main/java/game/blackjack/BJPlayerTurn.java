@@ -66,12 +66,13 @@ public class BJPlayerTurn implements TurnWithPlayerAndDealer {
         }
     }
 
-    private NextTurnStatus evenMoney(BJPlayer player) { //메서드 이름 변경 필요
+    private NextTurnStatus evenMoney(BJPlayer player) {
         Viewer.printInfo(ViewerStatus.CONFIRM_EVEN_MONEY);
 
-        if(!inputProcessor.getBooleanAnswer()) return NextTurnStatus.EARLY_SETTLING_TURN;
-
-        player.betEvenMoney();
+        if(inputProcessor.getBooleanAnswer()) {
+            player.betEvenMoney();
+            return NextTurnStatus.EARLY_SETTLING_TURN;
+        }
 
         return NextTurnStatus.DEALER_TURN;
     }

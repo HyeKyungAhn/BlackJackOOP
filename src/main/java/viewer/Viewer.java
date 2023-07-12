@@ -39,7 +39,8 @@ public interface Viewer {
             case COMPLETE_INSURANCE_PAYMENT:
                 System.out.println("인슈어런스를 지불하였습니다."); break;
             case CONFIRM_EVEN_MONEY:
-                System.out.println("이븐머니를 하시겠습니까? 네:1, 아니요:2"); break;
+                System.out.println("이븐머니를 하시겠습니까? 네:1, 아니요:2 " +
+                        "\n이븐머니 선택 시 배팅액 1배의 보상금을 받고 이번 라운드를 즉시 종료합니다"); break;
             case CONFIRM_DOUBLE_DOWN:
                 System.out.println("더블다운을 하시겠습니까? 네:1, 아니요:2"); break;
             case CONFIRM_OTHER_HITS:

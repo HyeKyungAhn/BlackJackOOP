@@ -81,6 +81,8 @@ public interface Viewer {
                 System.out.print("딜러가 블랙잭이므로 인슈어런스 수당을 포함한 "); break;
             case GIVE_PRINCIPAL:
                 System.out.println("원금을 돌려드립니다.");
+            case LOOSE_INSURANCE:
+                System.out.println("딜러가 블랙잭이 아닙니다! 보험금으로 걸어둔 돈을 잃었습니다.");
 
         }
     }

@@ -60,7 +60,7 @@ class BJPlayerTurnTest{
         assertThat(dealerHand.hasACard()).isTrue();
         assertThat(playerHand.isBlackJack()).isTrue();
         assertThat(playerHand.isEvenMoney()).isTrue();
-        assertThat(nextTurn).isEqualTo(NextTurnStatus.DEALER_TURN);
+        assertThat(nextTurn).isEqualTo(NextTurnStatus.EARLY_SETTLING_TURN);
     }
 
     @Test
@@ -89,7 +89,7 @@ class BJPlayerTurnTest{
         assertThat(playerHand.isBlackJack()).isTrue();
         assertThat(dealerHand.hasACard()).isTrue();
         assertThat(playerHand.isEvenMoney()).isFalse();
-        assertThat(nextTurn).isEqualTo(NextTurnStatus.EARLY_SETTLING_TURN);
+        assertThat(nextTurn).isEqualTo(NextTurnStatus.DEALER_TURN);
     }
 
     @Test

@@ -1,6 +1,5 @@
 package game.blackjack;
 
-import card.Card;
 import card.blackjack.*;
 import fund.VirtualWallet;
 import org.junit.jupiter.api.DisplayName;
@@ -16,21 +15,21 @@ class BJEarlySettlingTurnTest extends IOTest {
     }
 
     @Test
-    @DisplayName("이븐머니 포기 시 상금 두 배 테스트")
-    void testNoEvenMoney(){ //player who has blackjack at first dealing but doesn't choose even money
+    @DisplayName("이븐머니 선택 시 배팅액 1배 상금 얻는지 테스트")
+    void testNoEvenMoney(){
         //GIVEN
         long playerBalance = 1000L;
         long playerBettingAmount = 1000L;
         long expectedBalance = playerBalance + playerBettingAmount * 2;
 
         BJPlayerHand playerHand = new BJPlayerHandImpl();
-        getBlackJackHand(playerHand);
+        playerHand.setEvenMoney(true);
+        BJPlayer player = new BJPlayerImpl(playerHand, new VirtualWallet(playerBalance));
+        HandForTest.getBlackJackHand(player);
 
         BJDealerHand dealerHand = new BJDealerHandImpl();
-        getBlackJackHand(dealerHand);
-
-        BJPlayer player = new BJPlayerImpl(playerHand, new VirtualWallet(playerBalance));
         BJDealer dealer = new BJDealerImpl(dealerHand);
+        HandForTest.getDealerHandWithA(dealer);
 
         initSettlingTurn(dealer);
 
@@ -52,25 +51,24 @@ class BJEarlySettlingTurnTest extends IOTest {
     void testBustedPlayerWithInsuranceAndDealerWithBlackJack(){
         //GIVEN
         long oldPlayerBalance = 1000L;
+        long insurance = oldPlayerBalance / 2;
         long playerBettingAmount = 1000L;
-        long expectedBalance = oldPlayerBalance + playerBettingAmount;
+        long expectedBalance = oldPlayerBalance + insurance * 3;
 
         BJPlayerHand playerHand = new BJPlayerHandImpl();
-        getBustedHand(playerHand);
-
-        BJDealerHand dealerHand = new BJDealerHandImpl();
-        getBlackJackHand(dealerHand);
-
-        BJPlayer player = new BJPlayerImpl(playerHand, new VirtualWallet(oldPlayerBalance));
-        BJDealer dealer = new BJDealerImpl(dealerHand);
-
-        initSettlingTurn(dealer);
-
-        player.setBettingAmount(playerBettingAmount);
-
         playerHand.setInsured(true);
 
+        BJPlayer player = new BJPlayerImpl(playerHand, new VirtualWallet(oldPlayerBalance));
+        player.setBettingAmount(playerBettingAmount);
+        HandForTest.getBustedHand(player);
+
         playerHand.count();
+
+        BJDealerHand dealerHand = new BJDealerHandImpl();
+        BJDealer dealer = new BJDealerImpl(dealerHand);
+        HandForTest.getBlackJackHand(dealer);
+
+        initSettlingTurn(dealer);
 
         //WHEN
         earlySettlingTurn.nextTurn(player);
@@ -88,21 +86,18 @@ class BJEarlySettlingTurnTest extends IOTest {
         long playerBettingAmount = 1000L;
 
         BJPlayerHand playerHand = new BJPlayerHandImpl();
-        getBustedHand(playerHand);
-
-        BJDealerHand dealerHand = new BJDealerHandImpl();
-        getNoBustedNNoBlackJackHand(dealerHand);
-
         BJPlayer player = new BJPlayerImpl(playerHand, new VirtualWallet(oldPlayerBalance));
-        BJDealer dealer = new BJDealerImpl(dealerHand);
-
-        initSettlingTurn(dealer);
+        HandForTest.getBustedHand(player);
 
         player.setBettingAmount(playerBettingAmount);
-
         playerHand.setInsured(true);
-
         playerHand.count();
+
+        BJDealerHand dealerHand = new BJDealerHandImpl();
+        BJDealer dealer = new BJDealerImpl(dealerHand);
+        HandForTest.getNoBustedNNoBlackJackHand(dealer);
+
+        initSettlingTurn(dealer);
 
         //WHEN
         earlySettlingTurn.nextTurn(player);
@@ -120,19 +115,18 @@ class BJEarlySettlingTurnTest extends IOTest {
         long playerBettingAmount = 1000L;
 
         BJPlayerHand playerHand = new BJPlayerHandImpl();
-        getBustedHand(playerHand);
-
-        BJDealerHand dealerHand = new BJDealerHandImpl();
-        getNoBustedNNoBlackJackHand(dealerHand);
-
         BJPlayer player = new BJPlayerImpl(playerHand, new VirtualWallet(oldPlayerBalance));
-        BJDealer dealer = new BJDealerImpl(dealerHand);
-
-        initSettlingTurn(dealer);
+        HandForTest.getBustedHand(player);
 
         player.setBettingAmount(playerBettingAmount);
 
         playerHand.count();
+
+        BJDealerHand dealerHand = new BJDealerHandImpl();
+        BJDealer dealer = new BJDealerImpl(dealerHand);
+        HandForTest.getNoBustedNNoBlackJackHand(dealer);
+
+        initSettlingTurn(dealer);
 
         //WHEN
         earlySettlingTurn.nextTurn(player);
@@ -151,23 +145,22 @@ class BJEarlySettlingTurnTest extends IOTest {
         long expectedPlayerBalance = oldPlayerBalance + playerBettingAmount * 2;
 
         BJPlayerHand playerHand = new BJPlayerHandImpl();
-        getNoBustedNNoBlackJackHand(playerHand);
-
-        BJDealerHand dealerHand = new BJDealerHandImpl();
-        getBustedHand(dealerHand);
-
         BJPlayer player = new BJPlayerImpl(playerHand, new VirtualWallet(oldPlayerBalance));
-        BJDealer dealer = new BJDealerImpl(dealerHand);
-
-        initSettlingTurn(dealer);
+        HandForTest.getNoBustedNNoBlackJackHand(player);
 
         player.setBettingAmount(playerBettingAmount);
-        playerHand.setInsured(true);
 
+        playerHand.setInsured(true);
         playerHand.count();
+
+        BJDealerHand dealerHand = new BJDealerHandImpl();
+        BJDealer dealer = new BJDealerImpl(dealerHand);
+        HandForTest.getBustedHand(dealer);
 
         dealer.totalOpen();
         dealerHand.count();
+
+        initSettlingTurn(dealer);
 
         //WHEN
         earlySettlingTurn.nextTurn(player);
@@ -186,22 +179,21 @@ class BJEarlySettlingTurnTest extends IOTest {
         long expectedPlayerBalance = oldPlayerBalance + playerBettingAmount * 2;
 
         BJPlayerHand playerHand = new BJPlayerHandImpl();
-        getNoBustedNNoBlackJackHand(playerHand);
-
-        BJDealerHand dealerHand = new BJDealerHandImpl();
-        getBustedHand(dealerHand);
+        playerHand.count();
 
         BJPlayer player = new BJPlayerImpl(playerHand, new VirtualWallet(oldPlayerBalance));
-        BJDealer dealer = new BJDealerImpl(dealerHand);
-
-        initSettlingTurn(dealer);
+        HandForTest.getNoBustedNNoBlackJackHand(player);
 
         player.setBettingAmount(playerBettingAmount);
 
-        playerHand.count();
+        BJDealerHand dealerHand = new BJDealerHandImpl();
+        BJDealer dealer = new BJDealerImpl(dealerHand);
+        HandForTest.getBustedHand(dealer);
 
         dealer.totalOpen();
         dealerHand.count();
+
+        initSettlingTurn(dealer);
 
         //WHEN
         earlySettlingTurn.nextTurn(player);
@@ -209,21 +201,5 @@ class BJEarlySettlingTurnTest extends IOTest {
 
         //THEN
         assertThat(actualPlayerBalance).isEqualTo(expectedPlayerBalance);
-    }
-
-    private void getBlackJackHand(BlackJackHand hand) {
-        hand.addCard(new Card("Heart", "A"));
-        hand.addCard(new Card("King", "K"));
-    }
-
-    private void getBustedHand(BlackJackHand hand) {
-        hand.addCard(new Card("Heart", "7"));
-        hand.addCard(new Card("King", "6"));
-        hand.addCard(new Card("Queen", "K"));
-    }
-
-    private void getNoBustedNNoBlackJackHand(BlackJackHand hand) {
-        hand.addCard(new Card("Heart", "A"));
-        hand.addCard(new Card("King", "3"));
     }
 }

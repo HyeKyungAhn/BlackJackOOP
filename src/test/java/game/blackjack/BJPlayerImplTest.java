@@ -25,8 +25,6 @@ class BJPlayerImplTest extends IOTest{
     @Mock
     InputProcessor inputProcessor;
 
-
-
     @BeforeEach
     void setUp() {
         long amount = 1000;

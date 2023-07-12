@@ -1,7 +1,7 @@
 # Blackjack game
 
 ## 목차
-1. [introduction](#introduction)
+1. [Introduction](#Introduction)
 2. [Game Rules](#game-rules)
 3. [구현](#구현)
    1. [구현 과정](#구현-과정) 
@@ -9,9 +9,10 @@
    3. [Game 인터페이스의 역할](#Game-인터페이스의-역할)
    4. [Round와 Turn](#Round와-Turn)
    5. [추상화와 중복코드 제거](#추상화와-중복코드-제거)
+4. [기타 자료](#기타-자료)
 
 ***
-## introduction
+## Introduction
 이 Blackjack 게임은
 - 객체지향에 대해 배우기위해 만들기 시작한 블랙잭 게임입니다.
 - **콘솔**로 조작합니다
@@ -120,7 +121,6 @@
 <img src="img/img_7.png" width="70%" height="80%" align="center" alt="클래스 다이어그램">
 <div>[그림1]</div>
 </div>
-[그림1]
 
 ### Game 인터페이스의 역할
 
@@ -131,18 +131,19 @@
 ### Round와 Turn
 
 이 게임을 구현하는데 가장 어려웠던 것 중 하나는 **게임의 흐름을 제어**하는 부분이었습니다.
-블랙잭 게임은 초기에 플레이어와 딜러가 받는 패에 따라 게임이 조기에 종료될 수도, 마지막 단계까지 거쳐 종료될 수도 있는
-게임입니다.
-
+블랙잭 게임의 진행 단계를 [그림2]에 나오는 것처럼 크게 5 단계로 나누어 보았습니다. 이 단계들 중 플레이어턴의 로직은 
+이전 단계에서 받은 패(카드)에 따라 달라집니다. 그렇기 때문에 게임이 조기에 종료되어 '플레이어 턴'에서 바로 '게임 결과 처리'로 가는 경우가 있습니다.
 <div align="center">
-<img src="img/img_11.png" width="80%" height="80%" align="center" alt="클래스 다이어그램">
-<div>[그림2]</div>
+<img src="img/img11.png" width="80%" height="80%" align="center" alt="클래스 다이어그램">
+<div>[그림2] 게임 진행 단계</div>
 </div>
-[그림2]
 
 #### 리팩토링 이전
-[리팩토링 이전(코드)](https://github.com/HyeKyungAhn/BlackJackGame/blob/master/src/Game.java) 에는 Game 클래스에서
-playerTurn, dealerTurn 메서드를 생성하여 그 메서드에서 흐름을 제어했습니다. 게임의 결과 처리도 각 턴 메서드에서 처리를 하도록 했습니다.
+[리팩토링 이전(코드)](https://github.com/HyeKyungAhn/BlackJackGame/blob/master/src/Game.java) 에는 게임의 흐름을 제어하기위해
+`GameAssistant` 클래스에는 배팅, 카드 받기, 게임 결과 처리에(1,2,5단계) 관한 메서드를, `Game` 클래스에는 플레이어 턴과 딜러 턴을(3,4단계) 
+처리하는 메서드를 선언했습니다. 그리고 `Game` 클래스의 playerTurn, dealerTurn 메서드 내에서 게임 결과를 처리하는 GameAssistant 클래스의 
+메서드를 직접 호출했습니다.
+
 ```java
 // 리팩토링 이전의 코드
 public class Game{
@@ -150,33 +151,32 @@ public class Game{
     public void play(){
         //...
         do {
-            if(ga.initSet(ga, deck, player, dealer)==FINISH_GAME){ break; }
-            if(playerTurn(ga, deck, player, dealer,  scan)==FINISH_ROUND){ continue; }
-            dealerTurn(ga, deck, dealer, player);
+            if(ga.initSet(ga, deck, player, dealer)==FINISH_GAME){ break; } //베팅, 카드 받기
+            if(playerTurn(ga, deck, player, dealer,  scan)==FINISH_ROUND){ continue; } //플레이어 턴
+            dealerTurn(ga, deck, dealer, player); //딜러 턴
         } while(anotherGame(player, scan));
     }
 }
 ```
 
-하지만 한 클래스가 플레이어와 딜러의 게임 흐름 제어 그리고 게임 결과에 따른 후처리 메서드 호출(+ 입력값 처리)이라는 많은 관심사를 가지게되어
-객체지향의 단일 책임 원칙을 위배한 것을 볼 수 있습니다. 
-
-또 개인적으로 게임 결과를 처리하는 것은 게임 흐름([그림2])에서 큰 부분을 차지한다고 생각하는데, 단순히 playerTurn, dealerTurn 메서드에서
-다른 클래스(GameAssistant)에 정의된 게임 결과 처리 메서드를 직접 호출하는 것은 처음에 생각한 애플리케이션의 구조와는 맞지 않았습니다. 
+하지만 흐름제어의 측면에서 봤을 때, `Game`과 `GameAssistant`클래스는 둘 이상의 (개인적으로 구분한)단계를 한 클래스에서 구현하여 객체지향의
+단일 책임의 원칙을 위배했습니다.
+또 한 클래스가 다른 클래스에 의존하면서 각 단계가 독립적으로 실행되지 않는다는 문제점이 있습니다.
 
 이에 대한 해결법을 찾는 도중, mysticfall님의 [Scala로 구현한 블랙잭 게임 예제](https://github.com/mysticfall/card-game-example)
 에서 힌트를 얻고, 이 프로젝트에 맞게끔 수정하여 Round와 Turn의 구조를 도입했습니다.
 
 #### 리팩토링 후
 
+먼저 [그림2]의 블랙잭 게임의 단계를 [그림3]으로 수정했습니다.
 <div align="center">
-<img src="img/img_13.png" width="80%" height="80%" align="center" alt="클래스 다이어그램">
+<img src="img/img12.png" width="80%" height="80%" align="center" alt="클래스 다이어그램">
 <div>[그림3]</div>
 </div>
 
-
-먼저 [그림2]의 블랙잭 게임의 단계를 [그림3]과 같이 나누었습니다. 특정 패일 때만 이르게 게임 결과를 처리하기 때문에
-결과 처리를 **'이른 게임결과처리'와 '늦은 게임결과처리', 두 단계로 나눌** 수 있었습니다.
+중복코드를 방지하고 불필요한 로직을 거치지 않기 위해 '게임 결과 처리' 단계를
+두 단계로 나누었습니다. 특정 패일 때만 이르게 게임 결과를 처리하기 때문에
+결과 처리를 **'이른 게임결과처리'** 와 **'늦은 게임결과처리', 두 단계로 나눌** 수 있었습니다.
 
 <div align="center">
 <img src="img/img_14.png" width="80%" height="80%" align="center" alt="클래스 다이어그램">
@@ -187,9 +187,10 @@ public class Game{
 Turn의 자손 인터페이스를 구현할때 가장 중점적으로 생각한 것은 다음과 같습니다.  
 - **하나의 관심사만**을 가지는 클래스를 정의
 - 게임의 6 단계를 모두 Turn을 구현하는 클래스로 작성하여 **원래 구상한 애플리케이션 구조에 맞게 구현**
-- 확장성을 생각하여 구현 (static > 추상메서드)
+- 확장성을 생각하여 구현
 - 인터페이스 분리원칙 지키기
 
+마지막으로 **Round 인터페이스를 구현**했습니다.
 ```java
 //리팩토링 후
 public class BlackJackRound implements Round {
@@ -254,7 +255,7 @@ public class BlackJackRound implements Round {
 }
 ```
 
-마지막으로 **Round 인터페이스를 구현**했습니다. 각 턴을 게임 결과에 따라 다음 턴에 해당하는 NextTurnStatus enum을 반환하도록
+각 턴을 게임 결과에 따라 다음 턴에 해당하는 NextTurnStatus enum을 반환하도록
 작성했기 때문에 한 라운드가 끝날때까지 반복문으로 process()를 호출하여 게임의 단계를 진행할 수 있도록 구현했습니다.
 
 ### 추상화와 중복코드 제거
@@ -272,7 +273,7 @@ public class BlackJackRound implements Round {
 Role이라는 추상 클래스를 상속받아 플레이어와 딜러를 구현했습니다. 하지만 여기에는 몇가지 **문제점**이 있습니다.
 
 1. 플레이어 클래스 내에 **패와 관련된** 상태를 저장 및 처리하는 **변수와 메서드가 대부분**(관심사 분리 필요)
-2. Player와 Dealer 내에 메서드 **구현부가 동일한 것과 동일하지 않은 것이 혼재**(중복 코드 제거 필요)
+2. Player와 Dealer 내에 메서드 **메서드 시그니쳐와 구현부가 동일한 것과 동일하지 않은 것이 혼재**(중복 코드 제거 필요)
 3. Role은 상속 및 확장이 목표가 아니라, **구현 클래스의 행위를 보장**하는 것이 목표(인터페이스 사용 필요)
 
 #### 리팩토링 후
@@ -293,10 +294,8 @@ Role이라는 추상 클래스를 상속받아 플레이어와 딜러를 구현�
 </div>
 
 그 다음, **중복코드를 제거**하고 객체 간 상호작용 시 **추상화에 의존**하기 위해서
-**상속과 구현을 함께 사용**하여 클래스들을 구현했습니다. (2번 문제 해결)
-
-이제까지 Spring MVC에서 사용하던 ...Impl클래스의 사용 이유를 이해할 수 있는 경험이었습니다.
-아래는 리팩토링 후의 결과물입니다.
+**상속과 구현을 함께 사용**하여 클래스들을 구현했습니다.(2번 문제 해결) 이 과정을 통해 이제까지 Spring MVC에서 사용하던 ...Impl클래스의 
+사용 이유를 이해할 수 있었습니다. 아래는 리팩토링 후의 결과물입니다.
 
 <div align="center">
 <img src="img/img_9.png" width="60%" height="80%" align="center" alt="클래스 다이어그램">
@@ -308,5 +307,13 @@ Role이라는 추상 클래스를 상속받아 플레이어와 딜러를 구현�
 <div>[그림8]</div>
 </div>
 
+## 기타 자료
+<div align="center">
+<img src="img/img20.png" width="70%" height="80%" align="center" alt="클래스 다이어그램">
+<div>[그림9] 블랙잭 게임 흐름도</div>
+</div>
 
-
+<div align="center">
+<img src="img/img21.png" width="70%" height="80%" align="center" alt="클래스 다이어그램">
+<div>[그림10] 게임결과 처리 흐름</div>
+</div>

@@ -1,3 +1,4 @@
+[![Java CI with Maven](https://github.com/HyeKyungAhn/BlackJackOOP/actions/workflows/maven.yml/badge.svg)](https://github.com/HyeKyungAhn/BlackJackOOP/actions/workflows/maven.yml)
 # Blackjack game
 
 ## 목차

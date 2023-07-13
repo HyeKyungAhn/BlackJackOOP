@@ -5,22 +5,23 @@
 1. [Introduction](#Introduction)
 2. [Game Rules](#game-rules)
 3. [구현](#구현)
-   1. [구현 과정](#구현-과정) 
-   2. [class와 interface의 목록과 기능](#class와-interface의-목록과-기능)
-   3. [Game 인터페이스의 역할](#Game-인터페이스의-역할)
+   1. [class와 interface의 목록과 기능](#class와-interface의-목록과-기능)
+   2. [Game 인터페이스의 역할](#Game-인터페이스의-역할) 
+   3. [계층 분리](#계층-분리)
    4. [Round와 Turn](#Round와-Turn)
    5. [추상화와 중복코드 제거](#추상화와-중복코드-제거)
 4. [기타 자료](#기타-자료)
 
 ***
 ## Introduction
-이 Blackjack 게임은
+해당 애플리케이션은
 - 객체지향에 대해 배우기위해 만들기 시작한 블랙잭 게임입니다.
 - **콘솔**로 조작합니다
   - **객체지향**에대해 공부하는 것이 목표였기 때문에 화면을 구현하지 않았습니다
 - 플레이어와 딜러가 **1:1 승부**하는 형식입니다
 - [이전의 블랙잭 게임 구현](https://github.com/HyeKyungAhn/BlackJackGame) 을 리팩토링한 결과물입니다
 - 추후 인터페이스를 재활용하여 다른 카드게임을 구현할 목적으로 설계했습니다
+- Maven, Junit5, Mockito framework를 사용하여 빌드 및 테스트를 수행했습니다 
 
 ## Game Rules
 
@@ -60,11 +61,17 @@
 을 참고해주세요.
 
 ## 구현
+애플리케이션의 전체적인 흐름입니다.
+
+<div align="center">
+<img src="img/img_7.png" width="70%" height="80%" align="center" alt="클래스 다이어그램">
+<div>[그림1]</div>
+</div>
 
 ### class와 interface의 목록과 기능
 
 <details>
-<summary>interface</summary>
+<summary>interface 목록</summary>
 
 | 이름                      | 기능                                        |
 |-------------------------|-------------------------------------------|
@@ -90,7 +97,7 @@
 </details>
 
 <details>
-<summary>class</summary>
+<summary>class 목록</summary>
 
 | 이름                | 기능                                         |
 |-------------------|--------------------------------------------|
@@ -115,19 +122,17 @@
 | VirtualWallet     | 플레이어의 돈과 관뎐된 데이터를 저장 및 처리하는 클래스            |
 </details>
 
-### 구현 과정
-애플리케이션의 전체적인 흐름입니다.
-
-<div align="center">
-<img src="img/img_7.png" width="70%" height="80%" align="center" alt="클래스 다이어그램">
-<div>[그림1]</div>
-</div>
-
 ### Game 인터페이스의 역할
 
 블랙잭 게임을 구현하는데 사용한 인터페이스, 클래스들은 추후 다른 게임을 구현할 때 재사용하기 위한 목적을 가지고 구현했습니다.
 따라서 게임을 실행하는 Table 클래스와 실질적으로 게임을 진행하는 인터페이스인 Round 사이에 각 게임을 실행 및 종료하는 Game 인터페이스가 
 위치해있습니다.
+
+### 계층 분리
+응용 계층과 도메인 계층을 분리하여 구현하였습니다. [그림1]에서 나오는 클래스와 인터페이스들은 모두 응용 계층에 속하며 이 계층에서 활용하는 
+클래스들은 도메인에 해당됩니다. 표현 계층도 분리하기 위해 Viewer라는 인터페이스로 나누었지만, 아직까지는 응용계층에서 VIewer의 
+static 메서드를 호출하는 식으로 구현되어있습니다. 추후에 있을 2차 리팩토링에서 표현계층의 분리를 할 계획입니다.
+
 
 ### Round와 Turn
 
